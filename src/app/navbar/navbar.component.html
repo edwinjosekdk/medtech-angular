@@ -231,19 +231,33 @@
         <div class="modal-content rounded-0">
             <div class="w-85 mx-auto">
                 <h4 class="text-center text-secondary mt-4">Forgot Password?</h4>
-                <div class="custom-control custom-radio mt-3">
-                    <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
-                    <label class="custom-control-label" for="customRadio1">Otp will be send to <b>Email</b></label>
+                <div class="mt-3">
+                    <input class="form-control" type="text" placeholder="Enter Username" [(ngModel)]="otp_username">
                 </div>
-                <div class="custom-control custom-radio">
-                    <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
-                    <label class="custom-control-label" for="customRadio2">Otp will be send to <b>Phone</b> </label>
+                <div class="row mx-0 mt-3">
+                    <div class="col-6 px-0 pr-2">
+                        <div class="cardxx" [ngStyle]="{'background-color':otp_phone?'#eaeaea':'white'}" (click)="displayotpphone()">
+                            <div class="text-center p-2">
+                                Phone
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 px-0 pl-2">
+                        <div class="cardxx" [ngStyle]="{'background-color':otp_email?'#eaeaea':'white'}" (click)="displayotpemail()">
+                            <div class="text-center p-2">
+                                Email
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="mt-4">
-                    <input class="form-control" type="text" placeholder="Old password">
+                <div class="mt-3" *ngIf="otp_phone">
+                    <input class="form-control" type="text" placeholder="Registered Phone" [(ngModel)]="otp_val_phone" (ngModelChange)="validate()">
+                </div>
+                <div class="mt-3" *ngIf="otp_email">
+                    <input class="form-control" type="text" placeholder="Registered Email" [(ngModel)]="otp_val_email" (ngMdelChange)="validate()">
                 </div>
                 <div class="mt-3 mb-4">
-                    <button class="btn btn-dark w-100" type="submit" data-dismiss="modal" data-toggle="modal" data-target="#result-modal">Change Password</button>
+                    <button class="btn btn-dark w-100" (click)="sendreset()" type="submit" data-dismiss="modal" [disabled]="forgot_modal_error">Reset Password</button>
                 </div>
             </div>
         </div>
@@ -259,6 +273,46 @@
                 <button type="button" class="close position-absolute" style="top:5px;right: 10px;" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- otp popup -->
+<div class="modal fade" id="otp-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-0">
+            <div class="w-85 mx-auto my-4 mx-2">
+                <div class="mt-3">
+                    <input class="form-control" type="text" placeholder="Enter OTP" [(ngModel)]="otp_number">
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-dark w-100" (click)="otpcheck()" type="submit" data-dismiss="modal" [disabled]="!otp_number">Reset Password</button>
+                </div>
+                <button type="button" class="close position-absolute" style="top:5px;right: 10px;" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- reset password -->
+<div class="modal fade" id="resettt-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-0">
+            <div class="w-85 mx-auto">
+                <h4 class="text-center text-secondary mt-4">Reset Password</h4>
+                <div class="mt-3">
+                    <input class="form-control" type="password" [(ngModel)]="otp_newpass" placeholder="New Password">
+                </div>
+                <div class="mt-3">
+                    <input class="form-control" type="password" [(ngModel)]="otp_newrepass" placeholder="Re-enter New Password" (ngModelChange)="checkPwd()">
+                </div>
+                <div class="mt-3 mb-4">
+                    <span *ngIf="misError" style="color:red;">Password Mismatch!!!</span>
+                    <button class="btn btn-dark w-100" (click)="otpresetchange()" type="submit" data-dismiss="modal" data-toggle="modal" data-target="#result-modal" [disabled]="!otp_newpass || !otp_newrepass || misError">Change Password</button>
+                </div>
             </div>
         </div>
     </div>
