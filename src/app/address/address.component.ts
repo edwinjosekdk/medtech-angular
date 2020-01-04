@@ -55,8 +55,7 @@ export class AddressComponent implements OnInit {
       housenumber: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(6),
-        Validators.pattern(/^-?(0|[1-9]\d*)?$/)
+        Validators.maxLength(6)
       ]),
        area: new FormControl('', [
         Validators.required,
