@@ -79,7 +79,7 @@
                         <li>
                             <div style="cursor: pointer;">Hi <span class="text-danger"><b>{{username}}</b></span> <i class="fa fa-caret-down ml-1" aria-hidden="true"></i></div>
                             <ul class="coor">
-                                <li class="border-bottom"><a class="d-block py-1" href="">Change Password</a></li>
+                                <li class="border-bottom"><a class="d-block py-1" href="" data-toggle="modal" data-target="#change-modal">Change Password</a></li>
                                 <li id="log_out" (click)="medlogout()"><a class="d-block py-1">Logout <i class="fa fa-sign-out ml-1" aria-hidden="true"></i></a></li>
                             </ul>
                         </li>
@@ -110,8 +110,17 @@
                             aria-hidden="true"></i></button>
                     <span *ngIf="loginError" class="errorMsg">Invalid Credentials</span>
                 </div>
-                <div class="text-center small-text my-3">
-                    Not Registered? <br> <a class="text-dark" href="#" data-dismiss="modal" data-toggle="modal" data-target="#signup-modal"><i class="fa fa-user-plus" aria-hidden="true"></i> Signup</a>
+                <div class="row mx-0">
+                    <div class="col-6 px-0">
+                        <div class="text-left small-text my-3">
+                            Not Registered? <br> <a class="text-dark" href="#" data-dismiss="modal" data-toggle="modal" data-target="#signup-modal"><i class="fa fa-user-plus" aria-hidden="true"></i> Signup</a>
+                        </div>
+                    </div>
+                    <div class="col-6 px-0">
+                        <div class="text-right small-text my-3">
+                            Forgot Password? <br> <a class="text-dark" href="#" data-dismiss="modal" data-toggle="modal" data-target="#forgotpass-modal"><i class="fa fa-key" aria-hidden="true"></i> Click here</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -188,6 +197,68 @@
                         <a class="text-dark" href="#" data-dismiss="modal" data-toggle="modal" data-target="#login-modal" type="submit"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Back</a>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- change password -->
+<div class="modal fade" id="change-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-0">
+            <div class="w-85 mx-auto">
+                <h4 class="text-center text-secondary mt-4">Change Password</h4>
+                <div class="mt-4">
+                    <input class="form-control" type="password" [(ngModel)]="oldpass" placeholder="Old password">
+                </div>
+                <div class="mt-3">
+                    <input class="form-control" type="password" [(ngModel)]="newpass" placeholder="New Password">
+                </div>
+                <div class="mt-3">
+                    <input class="form-control" type="password" [(ngModel)]="newrepass" placeholder="Re-enter New Password">
+                </div>
+                <div class="mt-3 mb-4">
+                    <button class="btn btn-dark w-100" (click)="changepass()" type="submit" data-dismiss="modal" data-toggle="modal" data-target="#result-modal">Change Password</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- forgotpass -->
+<div class="modal fade" id="forgotpass-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-0">
+            <div class="w-85 mx-auto">
+                <h4 class="text-center text-secondary mt-4">Forgot Password?</h4>
+                <div class="custom-control custom-radio mt-3">
+                    <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadio1">Otp will be send to <b>Email</b></label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadio2">Otp will be send to <b>Phone</b> </label>
+                </div>
+                <div class="mt-4">
+                    <input class="form-control" type="text" placeholder="Old password">
+                </div>
+                <div class="mt-3 mb-4">
+                    <button class="btn btn-dark w-100" type="submit" data-dismiss="modal" data-toggle="modal" data-target="#result-modal">Change Password</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- result popup -->
+<div class="modal fade" id="result-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-0">
+            <div class="w-85 mx-auto my-4 mx-2">
+                <h5 style="text-align: center;" [ngClass]="{'text-success':dispmssg === 'Password Change Success', 'text-danger':dispmssg === 'Not loggedin!!!', 'text-danger':dispmssg === 'Passwords doesnot match', 'text-danger':dispmssg === 'empty input fields'}"><b> {{dispmssg}} </b></h5>
+                <button type="button" class="close position-absolute" style="top:5px;right: 10px;" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         </div>
     </div>

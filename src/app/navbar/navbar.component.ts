@@ -15,14 +15,19 @@ export class NavbarComponent implements OnInit {
   registerForm: FormGroup;
   public log_user;
 
+  public newpass;
+  public newrepass;
+  public oldpass;
+  public dispmssg = "invalid";
+
   public name;
   public mob;
   public email;
   public pass;
   public repass;
 
-  public logname='';
-  public logpass='';
+  public logname = "edwinjosekdk@gmail.com";
+  public logpass = "123";
 
   // public logname;
   // public logpass;
@@ -49,12 +54,12 @@ export class NavbarComponent implements OnInit {
     private apiService: ApiserviceService,
     private route: Router,
     private router: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.subprodComponent = new SubprodComponent(this.apiService, this.router);
-    $(document).ready(function() {
-      $("#show_hide_password button").on("click", function(event) {
+    $(document).ready(function () {
+      $("#show_hide_password button").on("click", function (event) {
         event.preventDefault();
         if ($("#show_hide_password input").attr("type") == "text") {
           $("#show_hide_password input").attr("type", "password");
@@ -68,8 +73,8 @@ export class NavbarComponent implements OnInit {
       });
     });
 
-    $(document).ready(function() {
-      $("#show_hide_password-re button").on("click", function(event) {
+    $(document).ready(function () {
+      $("#show_hide_password-re button").on("click", function (event) {
         event.preventDefault();
         if ($("#show_hide_password-re input").attr("type") == "text") {
           $("#show_hide_password-re input").attr("type", "password");
@@ -293,5 +298,29 @@ export class NavbarComponent implements OnInit {
         }
       }
     });
+  }
+
+  changepass() {
+    if (this.newpass === this.newrepass) {
+      this.apiService
+        .changepassword(sessionStorage.user, this.oldpass, this.newpass)
+        .subscribe(response => {
+          if (response["message"] === "success") {
+            this.dispmssg = "Password Change Success";
+          } else if (response["message"] === "current password") {
+            this.dispmssg = "Passwords doesnot match";
+          } else if (response["message"] === "invalid") {
+            this.dispmssg = "Passwords doesnot match";
+          } else if (response["message"] === "no user") {
+            this.dispmssg = "Not loggedin!!!";
+          }
+        });
+    }
+    else if (this.newpass === "" || this.newrepass === "" || this.oldpass === "") {
+      this.dispmssg = "empty input fields";
+    }
+    else {
+      this.dispmssg = "Passwords doesnot match";
+    }
   }
 }
