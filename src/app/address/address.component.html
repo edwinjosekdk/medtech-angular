@@ -8,54 +8,105 @@
                 <h4 class="text-dark mt-3"><b>Add Your Address</b></h4>
                 <div class="cardx bg-white p-3 mt-3 position-relative">
                     <div class="w-100">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="">Name</label>
-                                <input type="text" class="form-control" [(ngModel)]="medtech_name" placeholder="Name">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="">Mobile Number</label>
-                                <input type="tel" class="form-control" [(ngModel)]="medtech_mob" placeholder="Mobile Number">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Email</label>
-                            <input type="Email" class="form-control" [(ngModel)]="medtech_email" placeholder="Email">
-                        </div>
+                        <form class="form-horizontal" [formGroup]="registerForm" #formDir="ngForm">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="">Name</label>
+                                    <input type="text" class="form-control" formControlName="name" placeholder="Name">
+                                    <span *ngIf="registerForm.controls['name'].errors && (registerForm.controls['name'].dirty || registerForm.controls['name'].touched) || (registerForm.controls['name'].errors && formDir.submitted)">
+                                            <span class="errorMsg" *ngIf="registerForm.controls['name'].errors?.required">Name required</span>
+                                    <span class="errorMsg" *ngIf="registerForm.controls['name'].errors?.minlength">Name must be atleast 3 characters long</span>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="">House No.</label>
-                                <input type="text" class="form-control" [(ngModel)]="medtech_hno">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="">Area</label>
-                                <input type="text" class="form-control" [(ngModel)]="medtech_area">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="">Landmark</label>
-                                <input type="text" class="form-control" [(ngModel)]="medtech_lmrk">
-                            </div>
-                        </div>
+                                    </span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="">Mobile Number</label>
+                                    <input type="tel" class="form-control" formControlName="tel" placeholder="Mobile Number">
+                                    <span *ngIf="(registerForm.controls['tel'].errors && (registerForm.controls['tel'].dirty || registerForm.controls['tel'].touched)) || (registerForm.controls['tel'].errors && formDir.submitted)">
+                                            <span class="errorMsg" *ngIf="registerForm.controls['tel'].errors?.required">Phone number is required</span>
+                                    <span class="errorMsg" *ngIf="registerForm.controls['tel'].errors?.minlength || registerForm.controls['tel'].errors?.maxlength">Please provide a valid phone number</span>
+                                    <span class="errorMsg" *ngIf="registerForm.controls['tel'].errors?.pattern">No charactors allowed</span>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="">City</label>
-                                <input type="text" class="form-control" [(ngModel)]="medtech_city">
+                                    </span>
+                                </div>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="">State</label>
-                                <input type="text" class="form-control" [(ngModel)]="medtech_state">
+                            <div class="form-group">
+                                <label for="">Email</label>
+                                <input type="Email" class="form-control" formControlName="email" placeholder="Email">
+                                <span *ngIf="registerForm.controls['email'].errors && (registerForm.controls['email'].dirty || registerForm.controls['email'].touched) || (registerForm.controls['email'].errors && formDir.submitted)">
+                                        <span class="errorMsg" *ngIf="registerForm.controls['email'].errors?.required">Email is required</span>
+                                <span class="errorMsg" *ngIf="registerForm.controls['email'].errors?.pattern">Please provide a valid email!</span>
+                                </span>
                             </div>
-                            <div class="form-group col-md-2">
-                                <label for="">Zip</label>
-                                <input type="text" class="form-control" [(ngModel)]="medtech_zip">
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="">House No.</label>
+                                    <input type="text" class="form-control" formControlName="housenumber">
+                                    <span *ngIf="registerForm.controls['housenumber'].errors && (registerForm.controls['housenumber'].dirty || registerForm.controls['housenumber'].touched) || (registerForm.controls['housenumber'].errors && formDir.submitted)">
+                                            <span class="errorMsg" *ngIf="registerForm.controls['housenumber'].errors?.required">House Number required</span>
+                                    <span class="errorMsg" *ngIf="registerForm.controls['housenumber'].errors?.minlength">House Number must be atleast 3 characters long</span>
+                                    <span class="errorMsg" *ngIf="registerForm.controls['housenumber'].errors?.pattern">No characters allowed</span>
+
+                                    </span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="">Area</label>
+                                    <input type="text" class="form-control" formControlName="area">
+                                    <span *ngIf="registerForm.controls['area'].errors && (registerForm.controls['area'].dirty || registerForm.controls['area'].touched) || (registerForm.controls['area'].errors && formDir.submitted)">
+                                            <span class="errorMsg" *ngIf="registerForm.controls['area'].errors?.required">area required</span>
+                                    <span class="errorMsg" *ngIf="registerForm.controls['area'].errors?.minlength">area must be atleast 3 characters long</span>
+
+                                    </span>
+
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="">Landmark</label>
+                                    <input type="text" class="form-control" formControlName="landmark">
+                                    <span *ngIf="registerForm.controls['landmark'].errors && (registerForm.controls['landmark'].dirty || registerForm.controls['landmark'].touched) || (registerForm.controls['landmark'].errors && formDir.submitted)">
+                                            <span class="errorMsg" *ngIf="registerForm.controls['landmark'].errors?.required">landmark required</span>
+                                    <span class="errorMsg" *ngIf="registerForm.controls['landmark'].errors?.minlength">landmark must be atleast 3 characters long</span>
+
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+
+                            <div class="form-row ">
+                                <div class="form-group col-md-6 ">
+                                    <label for=" ">City</label>
+                                    <input type="text " class="form-control " formControlName="city">
+                                    <span *ngIf="registerForm.controls['city'].errors && (registerForm.controls['city'].dirty || registerForm.controls['city'].touched) || (registerForm.controls['city'].errors && formDir.submitted)">
+                                            <span class="errorMsg" *ngIf="registerForm.controls['city'].errors?.required">city required</span>
+                                    <span class="errorMsg" *ngIf="registerForm.controls['city'].errors?.minlength">city must be atleast 3 characters long</span>
+
+                                    </span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="">State</label>
+                                    <input type="text" class="form-control" formControlName="state">
+                                    <span *ngIf="registerForm.controls['state'].errors && (registerForm.controls['state'].dirty || registerForm.controls['state'].touched) || (registerForm.controls['state'].errors && formDir.submitted)">
+                                            <span class="errorMsg" *ngIf="registerForm.controls['state'].errors?.required">state required</span>
+                                    <span class="errorMsg" *ngIf="registerForm.controls['state'].errors?.minlength">state must be atleast 3 characters long</span>
+
+                                    </span>
+                                </div>
+                                <div class="form-group col-md-2 ">
+                                    <label for="">zip</label>
+                                    <input type="text" class="form-control" formControlName="zipcode">
+                                    <span *ngIf="registerForm.controls['zipcode'].errors && (registerForm.controls['zipcode'].dirty || registerForm.controls['zipcode'].touched) || (registerForm.controls['zipcode'].errors && formDir.submitted)">
+                                                <span class="errorMsg" *ngIf="registerForm.controls['zipcode'].errors?.required">zipcode required</span>
+                                    <span class="errorMsg" *ngIf="registerForm.controls['zipcode'].errors?.minlength">zipcode must be atleast 3 characters long</span>
+                                    <span class="errorMsg" *ngIf="registerForm.controls['zipcode'].errors?.maxlength">zipcode must be atmost 6 characters long</span>
+                                    <span class="errorMsg" *ngIf="registerForm.controls['zipcode'].errors?.pattern">zipcode must be numbers</span>
+
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <h4 class="text-dark mt-3"><b>Payment to Pay</b></h4>
-
+                <h4 class="text-dark mt-3 "><b>Payment to Pay</b></h4>
+                <!-- here -->
                 <div class="row mx-0">
 
                     <div class="col-lg-6 col-xl-6 px-0">
@@ -78,57 +129,58 @@
 
                 </div>
 
-                <div class="text-danger text-center mt-2"><b> {{alert}} </b></div>
 
-                <button type="submit" class="btn btn-dark mt-3 w-100" (click)="shopnow()">Proceed</button>
+                <div class="text-danger text-center mt-2 "><b> {{alert}} </b></div>
+
+                <button type="submit " class="btn btn-dark mt-3 w-100 " [disabled]="registerForm.invalid" (click)="shopnow()">Proceed</button>
             </div>
 
-            <div class="col-md-5 col-lg-4 py-3 px-2">
-                <div class="cardx bg-white p-3">
-                    <h5 class="border-bottom pb-3"><b>Order Summary</b></h5>
-                    <div class="row mx-0">
-                        <div class="col-7 px-0">
+            <div class="col-md-5 col-lg-4 py-3 px-2 ">
+                <div class="cardx bg-white p-3 ">
+                    <h5 class="border-bottom pb-3 "><b>Order Summary</b></h5>
+                    <div class="row mx-0 ">
+                        <div class="col-7 px-0 ">
                             <h6>Quantity</h6>
                         </div>
-                        <div class="col-5 px-0 text-right">
+                        <div class="col-5 px-0 text-right ">
                             <h6><b>{{quan}}</b></h6>
                         </div>
                     </div>
-                    <div class="row mx-0">
-                        <div class="col-7 px-0">
+                    <div class="row mx-0 ">
+                        <div class="col-7 px-0 ">
                             <h6>Unit Price</h6>
                         </div>
-                        <div class="col-5 px-0 text-right">
+                        <div class="col-5 px-0 text-right ">
                             <h6><b>{{price}}</b></h6>
                         </div>
                     </div>
-                    <div class="row mx-0 border-bottom">
-                        <div class="col-7 px-0">
+                    <div class="row mx-0 border-bottom ">
+                        <div class="col-7 px-0 ">
                             <h6>Price</h6>
                         </div>
-                        <div class="col-5 px-0 text-right">
+                        <div class="col-5 px-0 text-right ">
                             <h6><b>Rs {{price*quan}}</b></h6>
                         </div>
                     </div>
-                    <div class="row mx-0 pt-2">
-                        <div class="col-7 px-0">
+                    <div class="row mx-0 pt-2 ">
+                        <div class="col-7 px-0 ">
                             <h6><b>Total Price</b></h6>
                         </div>
-                        <div class="col-5 px-0 text-right">
+                        <div class="col-5 px-0 text-right ">
                             <h6><b>Rs {{price*quan}}</b></h6>
                         </div>
                     </div>
                 </div>
 
 
-                <div class="row mx-0 text-secondary text-center border-top border-bottom mt-3 py-3">
-                    <div class="col-6 px-1">
-                        <img style="height: 50px;width: 100%;object-fit: contain;" src="assets/images/png2.png" alt="">
-                        <h6 class="mt-3 text-center">Free Shipping</h6>
+                <div class="row mx-0 text-secondary text-center border-top border-bottom mt-3 py-3 ">
+                    <div class="col-6 px-1 ">
+                        <img style="height: 50px;width: 100%;object-fit: contain; " src="assets/images/png2.png " alt=" ">
+                        <h6 class="mt-3 text-center ">Free Shipping</h6>
                     </div>
-                    <div class="col-6 px-1">
-                        <img style="height: 50px;width: 100%;object-fit: contain;" src="assets/images/png3.png" alt="">
-                        <h6 class="mt-3 text-center">Secure Payments</h6>
+                    <div class="col-6 px-1 ">
+                        <img style="height: 50px;width: 100%;object-fit: contain; " src="assets/images/png3.png " alt=" ">
+                        <h6 class="mt-3 text-center ">Secure Payments</h6>
                     </div>
                 </div>
             </div>

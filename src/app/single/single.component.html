@@ -86,7 +86,7 @@
                     <div class="col-7 pr-0">
                         <h5><b>{{product_details.name}}</b></h5>
                         <div><small>Quantity</small></div>
-                        <input style="width: 100px;" [(ngModel)]="quantity" type="number" class="form-control">
+                        <input style="width: 100px;" [(ngModel)]="quantity" min="1" oninput="validity.valid||(value='');" type="number" class="form-control">
                     </div>
                 </div>
                 <div class="w-100 text-right">

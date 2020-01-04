@@ -59,6 +59,14 @@ export class SingleComponent implements OnInit, OnChanges {
     sessionStorage.setItem("medtech_prodid", this.productid);
   }
 
+  qtyChange(){
+    console.log(this.quantity);
+    if(+this.quantity < 1) {
+      this.quantity = "1";
+    }
+    console.log(this.quantity);
+  }
+
   requestp(id) {
     this.btntxt = "Requesting....";
     this.tokkn = sessionStorage.user;

@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { ApiserviceService } from "../services/apiservice.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 declare const $: any;
 declare const Razorpay: any;
 
@@ -11,6 +13,7 @@ declare const Razorpay: any;
 })
 export class AddressComponent implements OnInit {
   constructor(private apiService: ApiserviceService, private router: Router) {}
+  registerForm: FormGroup;
   public user;
   public quan;
   public price;
@@ -34,6 +37,52 @@ export class AddressComponent implements OnInit {
     this.price = sessionStorage.medtech_price;
     this.quan = sessionStorage.medtech_quan;
     this.prodid = sessionStorage.medtech_prodid;
+    this.registerForm = new FormGroup({
+      email: new FormControl('', [
+          Validators.required,
+          Validators.pattern('[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}')
+      ]),
+      name: new FormControl('', [
+          Validators.required,
+          Validators.minLength(3)
+      ]),
+      tel: new FormControl('', [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(10),
+          Validators.pattern(/^-?(0|[1-9]\d*)?$/)
+      ]),
+      housenumber: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(6),
+        Validators.pattern(/^-?(0|[1-9]\d*)?$/)
+      ]),
+       area: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3)
+      ]),
+      landmark: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3)
+      ]),
+      city: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3)
+      ]),
+      state: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3)
+      ]),
+      zipcode: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(6),
+        Validators.pattern(/^-?(0|[1-9]\d*)?$/)
+      ]),
+      // selectedCountryCode: new FormControl('', Validators.required),
+      // gender: new FormControl('', Validators.required)
+  });
   }
 
   purchaseproduct() {
@@ -76,6 +125,7 @@ export class AddressComponent implements OnInit {
   }
 
   shopnow() {
+    console.log("here......");
     if (sessionStorage.user) {
       if (this.medtech_mode === "cod") {
         this.purchaseproduct();
