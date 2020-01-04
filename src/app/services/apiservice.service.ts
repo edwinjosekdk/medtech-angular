@@ -73,6 +73,20 @@ export class ApiserviceService {
       );
   }
 
+  changepassword(tok,oldp,newp){
+    return this._http
+    .post(
+      "/api/user_login/change_password/",
+      JSON.stringify({token: tok, old_password: oldp, new_password: newp}),
+      this.requestOptions
+    )
+    .pipe(
+      map(Response => {
+        return Response;
+      })
+    );
+  }
+
   getProducts(id) {
     return this._http
       .post(

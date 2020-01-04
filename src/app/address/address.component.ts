@@ -56,12 +56,12 @@ export class AddressComponent implements OnInit {
       )
       .subscribe(response => {
         if (response["message"] === "success") {
-          console.log(response["message"]);
+          this.router.navigate(["/paymode"]);
           // setTimeout(() => {
           //   console.log("api send sss");
           // }, 3500);
         } else {
-          console.log("api send fail");
+          this.router.navigate(["/fail"]);
           // setTimeout(() => {
           //   console.log("api send fff");
           // }, 3500);
