@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ApiserviceService } from "../services/apiservice.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SubprodComponent } from "../subprod/subprod.component";
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { from } from "rxjs";
 declare var $: any;
 
@@ -14,6 +14,15 @@ declare var $: any;
 export class NavbarComponent implements OnInit {
   registerForm: FormGroup;
   public log_user;
+  public otp_phone = true;
+  public otp_email = false;
+  public otpid = "phone";
+  public otp_val_phone = '';
+  public otp_val_email = '';
+  public otp_username = '';
+  public otp_number;
+  public otp_newpass;
+  public otp_newrepass;
 
   public newpass;
   public newrepass;
@@ -25,9 +34,11 @@ export class NavbarComponent implements OnInit {
   public email;
   public pass;
   public repass;
+  public forgot_modal_error = false;
+  public misError = false;
 
   public logname = "edwinjosekdk@gmail.com";
-  public logpass = "123";
+  public logpass = "1234";
 
   // public logname;
   // public logpass;
@@ -54,12 +65,12 @@ export class NavbarComponent implements OnInit {
     private apiService: ApiserviceService,
     private route: Router,
     private router: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.subprodComponent = new SubprodComponent(this.apiService, this.router);
-    $(document).ready(function () {
-      $("#show_hide_password button").on("click", function (event) {
+    $(document).ready(function() {
+      $("#show_hide_password button").on("click", function(event) {
         event.preventDefault();
         if ($("#show_hide_password input").attr("type") == "text") {
           $("#show_hide_password input").attr("type", "password");
@@ -73,8 +84,8 @@ export class NavbarComponent implements OnInit {
       });
     });
 
-    $(document).ready(function () {
-      $("#show_hide_password-re button").on("click", function (event) {
+    $(document).ready(function() {
+      $("#show_hide_password-re button").on("click", function(event) {
         event.preventDefault();
         if ($("#show_hide_password-re input").attr("type") == "text") {
           $("#show_hide_password-re input").attr("type", "password");
@@ -91,31 +102,31 @@ export class NavbarComponent implements OnInit {
     });
 
     this.registerForm = new FormGroup({
-      email: new FormControl('', [
-          Validators.required,
-          Validators.pattern('[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}')
+      email: new FormControl("", [
+        Validators.required,
+        Validators.pattern(
+          "[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
+        )
       ]),
-      name: new FormControl('', [
-          Validators.required,
-          Validators.minLength(3)
+      name: new FormControl("", [Validators.required, Validators.minLength(3)]),
+      password: new FormControl("", [
+        Validators.required,
+        Validators.minLength(6)
       ]),
-      password: new FormControl('', [
-          Validators.required,
-          Validators.minLength(6)
-      ]),
-      confirmPassword: new FormControl('', Validators.required),
-      tel: new FormControl('', [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.maxLength(10)
-      ]),
+      confirmPassword: new FormControl("", Validators.required),
+      tel: new FormControl("", [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(10)
+      ])
       // selectedCountryCode: new FormControl('', Validators.required),
       // gender: new FormControl('', Validators.required)
-  });
+    });
 
     this.chechUser();
     this.getlist();
     this.getprodlist();
+    this.validate();
   }
 
   chechUser() {
@@ -128,31 +139,30 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  validateEmail(){
+  validateEmail() {
     this.loginError = false;
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    if(this.logname!==''){
-      if(!re.test(this.logname)){
+    if (this.logname !== "") {
+      if (!re.test(this.logname)) {
         this.emailError = true;
         return true;
-      } else{
-        this.emailError  = false;
+      } else {
+        this.emailError = false;
         return false;
       }
-    } else{
+    } else {
       this.emailError = true;
       return true;
     }
-    
   }
 
   validatePass() {
     this.loginError = false;
-    if(this.logpass === ''){
+    if (this.logpass === "") {
       this.passError = true;
       return true;
-    }else{
+    } else {
       this.passError = false;
       return false;
     }
@@ -168,12 +178,10 @@ export class NavbarComponent implements OnInit {
     var mob = this.registerForm.value.tel;
     var pass = this.registerForm.value.password;
     var cpass = this.registerForm.value.confirmPassword;
-    if(pass !== cpass){
+    if (pass !== cpass) {
       this.passwordMismatch = true;
-    }else{
-    this.apiService
-      .medreg(name, mob, email, pass)
-      .subscribe(response => {
+    } else {
+      this.apiService.medreg(name, mob, email, pass).subscribe(response => {
         console.log(response);
         if (response["message"] === "success") {
           this.alert_message = "Registration Success";
@@ -183,7 +191,7 @@ export class NavbarComponent implements OnInit {
           }, 3500);
           this.registerForm.reset();
           this.clearErrors();
-          
+
           $("#signup-modal").modal("hide");
           $("#login-modal").modal("show");
         } else {
@@ -198,33 +206,35 @@ export class NavbarComponent implements OnInit {
   }
 
   clearErrors() {
-    this.registerForm.controls['name'].setErrors(null);
-    this.registerForm.controls['email'].setErrors(null);
-    this.registerForm.controls['tel'].setErrors(null);
-    this.registerForm.controls['password'].setErrors(null);
-    this.registerForm.controls['confirmPassword'].setErrors(null);
+    this.registerForm.controls["name"].setErrors(null);
+    this.registerForm.controls["email"].setErrors(null);
+    this.registerForm.controls["tel"].setErrors(null);
+    this.registerForm.controls["password"].setErrors(null);
+    this.registerForm.controls["confirmPassword"].setErrors(null);
   }
 
   medlog() {
     this.validateEmail();
     this.validatePass();
-    console.log("email Error",this.emailError);
-    console.log("pass error",this.passError);
-    if(!this.emailError && !this.passError){
+    console.log("email Error", this.emailError);
+    console.log("pass error", this.passError);
+    if (!this.emailError && !this.passError) {
       console.log("herer");
-      this.apiService.medlogin(this.logname, this.logpass).subscribe(response => {
-        console.log(response);
-        if (response["message"] === "success") {
-          sessionStorage.setItem("user", response["token"]);
-          sessionStorage.setItem("username", response["data"]);
-          this.username = response["data"];
-          this.loggedin = true;
-          $("#login-modal").modal("hide");
-        } else if(response["message"] === "Invalid Credentials") {
-          this.loginError = true;
-        }
-      });
-    }else{
+      this.apiService
+        .medlogin(this.logname, this.logpass)
+        .subscribe(response => {
+          console.log(response);
+          if (response["message"] === "success") {
+            sessionStorage.setItem("user", response["token"]);
+            sessionStorage.setItem("username", response["data"]);
+            this.username = response["data"];
+            this.loggedin = true;
+            $("#login-modal").modal("hide");
+          } else if (response["message"] === "Invalid Credentials") {
+            this.loginError = true;
+          }
+        });
+    } else {
       console.log("sdfsdfdsfdsf");
     }
   }
@@ -315,12 +325,117 @@ export class NavbarComponent implements OnInit {
             this.dispmssg = "Not loggedin!!!";
           }
         });
-    }
-    else if (this.newpass === "" || this.newrepass === "" || this.oldpass === "") {
+    } else if (
+      this.newpass === "" ||
+      this.newrepass === "" ||
+      this.oldpass === ""
+    ) {
       this.dispmssg = "empty input fields";
-    }
-    else {
+    } else {
       this.dispmssg = "Passwords doesnot match";
     }
+  }
+
+  displayotpphone() {
+    this.otp_phone = true;
+    this.otp_email = false;
+    this.otpid = "phone";
+  }
+  displayotpemail() {
+    this.otp_phone = false;
+    this.otp_email = true;
+    this.otpid = "email";
+  }
+
+  sendreset() {
+
+    
+
+    if(!this.forgot_modal_error){
+    this.apiService
+      .sendresetreq(
+        this.otp_username,
+        this.otpid,
+        this.otp_val_phone,
+        this.otp_val_email
+      )
+      .subscribe(response => {
+        console.log(response);
+        if(response["message"] === "success"){
+          $("#otp-modal").modal("show");
+        } else if(response["message"] === "invalid phone" || response["message"] === "invalid email"){
+          this.dispmssg = "Phone or Email not registered";
+          $("#result-modal").modal("show");
+        } else if(response["message"]==="no user"){
+          this.dispmssg = "Please Check your username";
+          $("#result-modal").modal("show");
+        }
+        
+      });
+    }else{
+      $("#forgotpass-modal").modal("show");
+
+    }
+  }
+
+  otpcheck() {
+    this.dispmssg = "Checking OTP...";
+    $("#result-modal").modal("show");
+    this.apiService
+      .otpischeck(this.otp_username, this.otp_number)
+      .subscribe(response => {
+        console.log(response);
+        if(response["message"]==="success"){
+          $("#result-modal").modal("hide");
+          $("#resettt-modal").modal("show");
+        } else {
+          this.dispmssg = "OTP error...please try again";
+          $("#result-modal").modal("show");
+        }
+      });
+  }
+
+  otpresetchange() {
+    this.dispmssg = "Changing password...";
+    this.apiService
+      .otpreset(this.otp_username, this.otp_newpass)
+      .subscribe(response => {
+        console.log(response);
+        if (response["message"] === "success"){
+          this.dispmssg = "Password Change Success";
+          
+        }
+      });
+  }
+
+
+  checkPwd() {
+    if(this.otp_newpass !== this.otp_newrepass){
+      this.misError = true;
+    } else{
+      this.misError = false;
+    }
+  }
+
+
+  validate() {
+    if(this.otp_username === '') {
+      this.forgot_modal_error = true;
+    }else{
+    if(this.otpid == "phone"){
+      if(this.otp_val_phone === ''){
+        this.forgot_modal_error = true;
+      } else{
+        this.forgot_modal_error = false;
+      }
+    }else{
+      if(this.otp_val_email === ''){
+        this.forgot_modal_error = true;
+      }
+      else{
+        this.forgot_modal_error = false;
+      }
+    }
+  }
   }
 }
