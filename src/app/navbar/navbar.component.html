@@ -98,14 +98,17 @@
             <div class="w-85 mx-auto">
                 <h4 class="text-center text-secondary mt-4">User Login</h4>
                 <div class="mt-4">
-                    <input class="form-control" [(ngModel)]="logname" type="text" placeholder="Email">
+                    <input class="form-control" [(ngModel)]="logname" (ngModelChange)="validateEmail()" type="text" placeholder="Email">
+                    <span *ngIf="emailError" class="errorMsg">Error in Email.</span>
                 </div>
                 <div class="mt-3">
-                    <input class="form-control" [(ngModel)]="logpass" type="password" placeholder="Password">
+                    <input class="form-control" [(ngModel)]="logpass" type="password" (ngModelChange)=validatePass() placeholder="Password">
+                    <span *ngIf="passError" class="errorMsg">Error in Password.</span>
                 </div>
                 <div class="mt-3">
                     <button class="btn btn-dark w-100" (click)="medlog()" type="submit">Login <i class="fa fa-sign-in"
                             aria-hidden="true"></i></button>
+                    <span *ngIf="loginError" class="errorMsg">Invalid Credentials</span>
                 </div>
                 <div class="text-center small-text my-3">
                     Not Registered? <br> <a class="text-dark" href="#" data-dismiss="modal" data-toggle="modal" data-target="#signup-modal"><i class="fa fa-user-plus" aria-hidden="true"></i> Signup</a>
@@ -120,41 +123,71 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content rounded-0">
             <div class="w-85 mx-auto">
-                <h4 class="text-center text-secondary mt-4">Signup</h4>
-                <div class="mt-3">
-                    <input class="form-control" type="text" [(ngModel)]="name" placeholder="Name">
-                </div>
-                <div class="mt-3">
-                    <input class="form-control" type="tel" [(ngModel)]="mob" placeholder="Mobile Number">
-                </div>
-                <div class="mt-3">
-                    <input class="form-control" type="text" [(ngModel)]="email" placeholder="Email">
-                </div>
-                <div class="mt-3">
-                    <div class="form-group d-flex" id="show_hide_password">
-                        <input class="form-control" type="password" [(ngModel)]="pass" placeholder="Password">
-                        <div class="input-group-addon">
-                            <button class="btn btn-light"><i class="fa fa-eye-slash"
-                                    style="color: #2d2d2d;"></i></button>
-                        </div>
+                <form class="form-horizontal" [formGroup]="registerForm" (ngSubmit)="medtest()" #formDir="ngForm">
+                    <h4 class="text-center text-secondary mt-4">Signup</h4>
+                    <div class="mt-3">
+                        <input class="form-control" formControlName="name" id="name" type="text" placeholder="Name" minlength="4">
+                        <span *ngIf="registerForm.controls['name'].errors && (registerForm.controls['name'].dirty || registerForm.controls['name'].touched) || (registerForm.controls['name'].errors && formDir.submitted)">
+                            <span class="errorMsg" *ngIf="registerForm.controls['name'].errors?.required">Name required</span>
+                        <span class="errorMsg" *ngIf="registerForm.controls['name'].errors?.minlength">Name must be atleast 3 characters long</span>
+
+                        </span>
                     </div>
-                </div>
-                <div class="mt-3">
-                    <div class="form-group d-flex" id="show_hide_password-re">
-                        <input class="form-control" type="password" [(ngModel)]="repass" placeholder="Re-type Password">
-                        <div class="input-group-addon">
-                            <button class="btn btn-light"><i class="fa fa-eye-slash"
-                                    style="color: #2d2d2d;"></i></button>
-                        </div>
+                    <div class="mt-3">
+                        <input class="form-control" formControlName="tel" type="tel" placeholder="Mobile Number">
+                        <span *ngIf="(registerForm.controls['tel'].errors && (registerForm.controls['tel'].dirty || registerForm.controls['tel'].touched)) || (registerForm.controls['tel'].errors && formDir.submitted)">
+                            <span class="errorMsg" *ngIf="registerForm.controls['tel'].errors?.required">Phone number is required</span>
+                        <span class="errorMsg" *ngIf="registerForm.controls['tel'].errors?.minlength || registerForm.controls['tel'].errors?.maxlength">Please provide a valid phone number</span>
+                        </span>
                     </div>
-                </div>
-                <div class="mt-3">
-                    <button class="btn btn-dark w-100 cursor-pointer" (click)="medtest()">Signup <i
+                    <div class="mt-3">
+                        <input class="form-control" formControlName="email" type="email" placeholder="Email">
+                        <span *ngIf="registerForm.controls['email'].errors && (registerForm.controls['email'].dirty || registerForm.controls['email'].touched) || (registerForm.controls['email'].errors && formDir.submitted)">
+                            <span class="errorMsg" *ngIf="registerForm.controls['email'].errors?.required">Email is required</span>
+                        <span class="errorMsg" *ngIf="registerForm.controls['email'].errors?.pattern">Please provide a valid email!</span>
+                        </span>
+
+                    </div>
+                    <div class="mt-3">
+                        <div class="form-group d-flex" id="show_hide_password">
+                            <input class="form-control" formControlName="password" type="password" placeholder="Password">
+
+                            <div class="input-group-addon">
+                                <button class="btn btn-light"><i class="fa fa-eye-slash"
+                                    style="color: #2d2d2d;"></i></button>
+                            </div>
+
+                        </div>
+                        <span *ngIf="registerForm.controls['password'].errors && (registerForm.controls['password'].dirty || registerForm.controls['password'].touched) ||  (registerForm.controls['password'].errors && formDir.submitted)">
+                            <span class="errorMsg" *ngIf="registerForm.controls['password'].errors?.required">Password is required</span>
+                        <span class="errorMsg" *ngIf="registerForm.controls['password'].errors?.minlength">Password must be 6 characters long, we need another {{registerForm.controls['password'].errors.minlength.requiredLength
+                            - registerForm.controls['password'].errors.minlength.actualLength}} characters
+                            </span>
+                        </span>
+                    </div>
+                    <div class="mt-3">
+                        <div class="form-group d-flex" id="show_hide_password-re">
+                            <input class="form-control" formControlName="confirmPassword" type="password" placeholder="Re-type Password">
+                            <div class="input-group-addon">
+                                <button class="btn btn-light"><i class="fa fa-eye-slash"
+                                    style="color: #2d2d2d;"></i></button>
+                            </div>
+                        </div>
+                        <span *ngIf="registerForm.controls['confirmPassword'].errors && (registerForm.controls['confirmPassword'].dirty || registerForm.controls['confirmPassword'].touched) || (registerForm.controls['confirmPassword'].errors && formDir.submitted)">
+                            <span class="errorMsg" *ngIf="registerForm.controls['confirmPassword'].errors && registerForm.controls['confirmPassword'].errors?.required">Password is required</span>
+
+                        </span>
+
+                        <span class="errorMsg" *ngIf="passwordMismatch">Password mismatch</span>
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-dark w-100 cursor-pointer" type="submit" [disabled]="registerForm.invalid">Signup <i
                             class="fa fa-sign-in"></i></button>
-                </div>
-                <div class="text-center small-text my-3">
-                    <a class="text-dark" href="#" data-dismiss="modal" data-toggle="modal" data-target="#login-modal" type="submit"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Back</a>
-                </div>
+                    </div>
+                    <div class="text-center small-text my-3">
+                        <a class="text-dark" href="#" data-dismiss="modal" data-toggle="modal" data-target="#login-modal" type="submit"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Back</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -164,7 +197,7 @@
     <strong>{{alert_message}}</strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
-    </button>
+                        </button>
 </div>
 
 <div *ngIf="viewMsg_success" class="alert alert-success alert-dismissible fade show set-pos-alert" role="alert">

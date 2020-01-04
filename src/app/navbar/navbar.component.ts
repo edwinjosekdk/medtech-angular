@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ApiserviceService } from "../services/apiservice.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SubprodComponent } from "../subprod/subprod.component";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { from } from "rxjs";
 declare var $: any;
 
@@ -11,6 +12,7 @@ declare var $: any;
   styleUrls: ["./navbar.component.css"]
 })
 export class NavbarComponent implements OnInit {
+  registerForm: FormGroup;
   public log_user;
 
   public name;
@@ -19,8 +21,8 @@ export class NavbarComponent implements OnInit {
   public pass;
   public repass;
 
-  public logname = "edwinjosekdk@gmail.com";
-  public logpass = "edwin@1234";
+  public logname='';
+  public logpass='';
 
   // public logname;
   // public logpass;
@@ -36,6 +38,12 @@ export class NavbarComponent implements OnInit {
 
   public subcatDetails = [];
   public subprodComponent;
+
+  public emailError = false;
+  public passError = false;
+
+  public loginError = false;
+  public passwordMismatch = false;
 
   constructor(
     private apiService: ApiserviceService,
@@ -76,6 +84,30 @@ export class NavbarComponent implements OnInit {
         }
       });
     });
+
+    this.registerForm = new FormGroup({
+      email: new FormControl('', [
+          Validators.required,
+          Validators.pattern('[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}')
+      ]),
+      name: new FormControl('', [
+          Validators.required,
+          Validators.minLength(3)
+      ]),
+      password: new FormControl('', [
+          Validators.required,
+          Validators.minLength(6)
+      ]),
+      confirmPassword: new FormControl('', Validators.required),
+      tel: new FormControl('', [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(10)
+      ]),
+      // selectedCountryCode: new FormControl('', Validators.required),
+      // gender: new FormControl('', Validators.required)
+  });
+
     this.chechUser();
     this.getlist();
     this.getprodlist();
@@ -91,20 +123,62 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  validateEmail(){
+    this.loginError = false;
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if(this.logname!==''){
+      if(!re.test(this.logname)){
+        this.emailError = true;
+        return true;
+      } else{
+        this.emailError  = false;
+        return false;
+      }
+    } else{
+      this.emailError = true;
+      return true;
+    }
+    
+  }
+
+  validatePass() {
+    this.loginError = false;
+    if(this.logpass === ''){
+      this.passError = true;
+      return true;
+    }else{
+      this.passError = false;
+      return false;
+    }
+  }
+
   alert_message = "";
   viewMsg_success = false;
   viewMsg_fail = false;
 
   medtest() {
+    var name = this.registerForm.value.name;
+    var email = this.registerForm.value.email;
+    var mob = this.registerForm.value.tel;
+    var pass = this.registerForm.value.password;
+    var cpass = this.registerForm.value.confirmPassword;
+    if(pass !== cpass){
+      this.passwordMismatch = true;
+    }else{
     this.apiService
-      .medreg(this.name, this.mob, this.email, this.pass)
+      .medreg(name, mob, email, pass)
       .subscribe(response => {
+        console.log(response);
         if (response["message"] === "success") {
           this.alert_message = "Registration Success";
           this.viewMsg_success = true;
           setTimeout(() => {
             this.viewMsg_success = false;
           }, 3500);
+          this.registerForm.reset();
+          this.clearErrors();
+          
           $("#signup-modal").modal("hide");
           $("#login-modal").modal("show");
         } else {
@@ -115,18 +189,39 @@ export class NavbarComponent implements OnInit {
           }, 3500);
         }
       });
+    }
+  }
+
+  clearErrors() {
+    this.registerForm.controls['name'].setErrors(null);
+    this.registerForm.controls['email'].setErrors(null);
+    this.registerForm.controls['tel'].setErrors(null);
+    this.registerForm.controls['password'].setErrors(null);
+    this.registerForm.controls['confirmPassword'].setErrors(null);
   }
 
   medlog() {
-    this.apiService.medlogin(this.logname, this.logpass).subscribe(response => {
-      if (response["message"] === "success") {
-        sessionStorage.setItem("user", response["token"]);
-        sessionStorage.setItem("username", response["data"]);
-        this.username = response["data"];
-        this.loggedin = true;
-        $("#login-modal").modal("hide");
-      }
-    });
+    this.validateEmail();
+    this.validatePass();
+    console.log("email Error",this.emailError);
+    console.log("pass error",this.passError);
+    if(!this.emailError && !this.passError){
+      console.log("herer");
+      this.apiService.medlogin(this.logname, this.logpass).subscribe(response => {
+        console.log(response);
+        if (response["message"] === "success") {
+          sessionStorage.setItem("user", response["token"]);
+          sessionStorage.setItem("username", response["data"]);
+          this.username = response["data"];
+          this.loggedin = true;
+          $("#login-modal").modal("hide");
+        } else if(response["message"] === "Invalid Credentials") {
+          this.loginError = true;
+        }
+      });
+    }else{
+      console.log("sdfsdfdsfdsf");
+    }
   }
 
   medlogout() {
