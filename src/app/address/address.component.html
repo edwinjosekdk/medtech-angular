@@ -1,0 +1,137 @@
+<div class="height-setter">
+</div>
+
+<section>
+    <div class="container mt-2">
+        <div class="row mx-0">
+            <div class="col-md-7 col-lg-8 pb-3 px-2">
+                <h4 class="text-dark mt-3"><b>Add Your Address</b></h4>
+                <div class="cardx bg-white p-3 mt-3 position-relative">
+                    <div class="w-100">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="">Name</label>
+                                <input type="text" class="form-control" [(ngModel)]="medtech_name" placeholder="Name">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="">Mobile Number</label>
+                                <input type="tel" class="form-control" [(ngModel)]="medtech_mob" placeholder="Mobile Number">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input type="Email" class="form-control" [(ngModel)]="medtech_email" placeholder="Email">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="">House No.</label>
+                                <input type="text" class="form-control" [(ngModel)]="medtech_hno">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="">Area</label>
+                                <input type="text" class="form-control" [(ngModel)]="medtech_area">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="">Landmark</label>
+                                <input type="text" class="form-control" [(ngModel)]="medtech_lmrk">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="">City</label>
+                                <input type="text" class="form-control" [(ngModel)]="medtech_city">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="">State</label>
+                                <input type="text" class="form-control" [(ngModel)]="medtech_state">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="">Zip</label>
+                                <input type="text" class="form-control" [(ngModel)]="medtech_zip">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="text-dark mt-3"><b>Payment to Pay</b></h4>
+
+                <div class="row mx-0">
+
+                    <div class="col-lg-6 col-xl-6 px-0">
+                        <div class="cardx bg-white p-3 mt-3 position-relative text-dark">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="cod" (change)="mode($event)" name="customRadio" class="custom-control-input">
+                                <label class="custom-control-label" for="cod">Cash On Delivery</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-xl-6 px-0">
+                        <div class="cardx bg-white p-3 mt-3 position-relative text-dark">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="online" (change)="mode($event)" name="customRadio" class="custom-control-input">
+                                <label class="custom-control-label" for="online">Online</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="text-danger text-center mt-2"><b> {{alert}} </b></div>
+
+                <button type="submit" class="btn btn-dark mt-3 w-100" (click)="shopnow()">Proceed</button>
+            </div>
+
+            <div class="col-md-5 col-lg-4 py-3 px-2">
+                <div class="cardx bg-white p-3">
+                    <h5 class="border-bottom pb-3"><b>Order Summary</b></h5>
+                    <div class="row mx-0">
+                        <div class="col-7 px-0">
+                            <h6>Quantity</h6>
+                        </div>
+                        <div class="col-5 px-0 text-right">
+                            <h6><b>{{quan}}</b></h6>
+                        </div>
+                    </div>
+                    <div class="row mx-0">
+                        <div class="col-7 px-0">
+                            <h6>Unit Price</h6>
+                        </div>
+                        <div class="col-5 px-0 text-right">
+                            <h6><b>{{price}}</b></h6>
+                        </div>
+                    </div>
+                    <div class="row mx-0 border-bottom">
+                        <div class="col-7 px-0">
+                            <h6>Price</h6>
+                        </div>
+                        <div class="col-5 px-0 text-right">
+                            <h6><b>Rs {{price*quan}}</b></h6>
+                        </div>
+                    </div>
+                    <div class="row mx-0 pt-2">
+                        <div class="col-7 px-0">
+                            <h6><b>Total Price</b></h6>
+                        </div>
+                        <div class="col-5 px-0 text-right">
+                            <h6><b>Rs {{price*quan}}</b></h6>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row mx-0 text-secondary text-center border-top border-bottom mt-3 py-3">
+                    <div class="col-6 px-1">
+                        <img style="height: 50px;width: 100%;object-fit: contain;" src="assets/images/png2.png" alt="">
+                        <h6 class="mt-3 text-center">Free Shipping</h6>
+                    </div>
+                    <div class="col-6 px-1">
+                        <img style="height: 50px;width: 100%;object-fit: contain;" src="assets/images/png3.png" alt="">
+                        <h6 class="mt-3 text-center">Secure Payments</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
