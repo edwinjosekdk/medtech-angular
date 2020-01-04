@@ -37,8 +37,8 @@ export class NavbarComponent implements OnInit {
   public forgot_modal_error = false;
   public misError = false;
 
-  public logname = "edwinjosekdk@gmail.com";
-  public logpass = "1234";
+  public logname = "";
+  public logpass = "";
 
   // public logname;
   // public logpass;

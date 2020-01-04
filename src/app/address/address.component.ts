@@ -22,15 +22,15 @@ export class AddressComponent implements OnInit {
 
   public alert;
 
-  public medtech_name = "akhil";
-  public medtech_city = "adfasdasd";
-  public medtech_state = "dasdasd";
-  public medtech_zip = "123123";
-  public medtech_mob = "9947791911";
-  public medtech_email = "aewrads@sdfsdf.fsdfsdf";
-  public medtech_hno = "sdfsdf";
-  public medtech_area = "dfcsdfdsf";
-  public medtech_lmrk = "sfsdgweresdf";
+  public medtech_name = "";
+  public medtech_city = "";
+  public medtech_state = "";
+  public medtech_zip = "";
+  public medtech_mob = "";
+  public medtech_email = "";
+  public medtech_hno = "";
+  public medtech_area = "";
+  public medtech_lmrk = "";
 
   public paymentid;
   ngOnInit() {
@@ -86,6 +86,16 @@ export class AddressComponent implements OnInit {
   }
 
   purchaseproduct() {
+    var name = this.registerForm.value.name;
+    var city = this.registerForm.value.city;
+    var state = this.registerForm.value.state;
+    var zip = this.registerForm.value.zipcode;
+    var mob = this.registerForm.value.tel;
+    var email = this.registerForm.value.email;
+    var hno = this.registerForm.value.housenumber;
+    var area = this.registerForm.value.area;
+    var lmrk = this.registerForm.value.landmark;
+    console.log("name",name);
     this.apiService
       .placeorder(
         sessionStorage.user,
@@ -93,15 +103,15 @@ export class AddressComponent implements OnInit {
         this.medtech_mode,
         this.quan,
         (this.paymentid = ""),
-        this.medtech_name,
-        this.medtech_city,
-        this.medtech_state,
-        this.medtech_zip,
-        this.medtech_mob,
-        this.medtech_email,
-        this.medtech_hno,
-        this.medtech_area,
-        this.medtech_lmrk
+        name,
+        city,
+        state,
+        zip,
+        mob,
+        email,
+        hno,
+        area,
+        lmrk
       )
       .subscribe(response => {
         if (response["message"] === "success") {

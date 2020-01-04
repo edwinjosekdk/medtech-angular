@@ -41,7 +41,7 @@
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="">House No.</label>
+                                    <label for="">House No. / House Name</label>
                                     <input type="text" class="form-control" formControlName="housenumber">
                                     <span *ngIf="registerForm.controls['housenumber'].errors && (registerForm.controls['housenumber'].dirty || registerForm.controls['housenumber'].touched) || (registerForm.controls['housenumber'].errors && formDir.submitted)">
                                             <span class="errorMsg" *ngIf="registerForm.controls['housenumber'].errors?.required">House Number required</span>

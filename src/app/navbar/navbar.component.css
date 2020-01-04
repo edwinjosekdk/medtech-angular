@@ -12,3 +12,11 @@
     cursor: pointer;
     transform: scale(1.05);
 }
+
+.text-danger1 {
+    color: red;
+}
+
+.text-danger2 {
+    color: red;
+}
