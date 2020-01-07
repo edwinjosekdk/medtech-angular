@@ -21,8 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { DataService } from './services/data.service';
 import { AddressComponent } from './address/address.component';
 import { PaymodeComponent } from './paymode/paymode.component';
-import { OtpcodComponent } from './otpcod/otpcod.component';
 import { FailComponent } from './fail/fail.component';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -40,8 +40,8 @@ import { FailComponent } from './fail/fail.component';
     SubprodComponent,
     AddressComponent,
     PaymodeComponent,
-    OtpcodComponent,
-    FailComponent
+    FailComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,

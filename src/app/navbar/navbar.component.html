@@ -1,9 +1,9 @@
 <nav style="background-color: #F8F9FA;border-bottom: 1px solid #3d3d3d30;">
     <div>
         <div class="row mx-auto container">
-            <div class="col-xl-3 col-lg-2 col-md-12 col-10 px-0 middler pb-1 pb-md-0 py-md-2">
+            <div class="col-xl-3 col-lg-2 col-md-12 col-10 px-0 middler pb-1 pb-md-0">
                 <a class="mx-md-auto mx-lg-0" routerLink="/">
-                    <img class="bg-light px-3 py-2" style="width: 175px" src="assets/img/logo2.png" alt="">
+                    <img class="bg-light px-2 py-2" style="width: 175px" src="assets/img/logo2.png" alt="">
                 </a>
             </div>
 
@@ -73,6 +73,7 @@
                     <div class="px-2 px-lg-0 pr-lg-4"><a href="http://www.med-tech.com/">Medtech Global</a></div>
                     <div class="px-2 px-lg-0 pr-lg-4"><a routerLink="/careers">Careers</a></div>
                     <div class="px-2 px-lg-0 pr-lg-4"><a routerLink="/contact">Contact</a></div>
+                    <div class="px-2 px-lg-0 pr-lg-4"><a routerLink="/cart"><i class="fa fa-shopping-cart mr-1" aria-hidden="true"></i>Cart</a></div>
                     <div *ngIf="!loggedin" class="px-2 px-lg-0"><a href="#" data-toggle="modal" data-target="#login-modal"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Login</a>
                     </div>
                     <ul *ngIf="loggedin" class="pl-2 px-lg-0 pr-lg-4">
@@ -84,7 +85,6 @@
                             </ul>
                         </li>
                     </ul>
-
                 </div>
             </div>
         </div>

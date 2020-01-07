@@ -13,6 +13,7 @@ export class SubprodComponent implements OnInit, OnDestroy {
   public pppid;
   public cat_id;
   public products;
+  public description;
   subscriptions = [];
   public img_url = "https://medtech.creopedia.com/media/";
 
@@ -50,7 +51,9 @@ export class SubprodComponent implements OnInit, OnDestroy {
   getprod() {
     this.apiService.getProducts(this.cat_id).subscribe(response => {
       if (response["code"] === "200") {
+        // console.log(response);
         this.products = response["data"];
+        this.description = response["des"];
       } else  {
         this.products = [];
       }

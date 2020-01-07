@@ -146,6 +146,21 @@ export class ApiserviceService {
       );
   }
 
+  getselectedcategory(ids) {
+    console.log(ids);
+    return this._http
+    .post(
+      this.api_url+"product_details/sub_category/",
+      JSON.stringify({id:ids}),
+      this.requestOptions
+    )
+    .pipe(
+      map(response => {
+        return response;
+      })
+    );
+  }
+
   getAllProducts() {
     return this._http
       .get(this.api_url+"product_details/product_detail/", this.requestOptions)

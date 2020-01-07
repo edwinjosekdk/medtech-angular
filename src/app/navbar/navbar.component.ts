@@ -290,6 +290,12 @@ export class NavbarComponent implements OnInit {
         window.location.reload();
       }, 100);
     }
+    else{
+      this.route.navigate(["/categories", menu.id]);
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    }
   }
 
   subsubmenu(submenu) {
