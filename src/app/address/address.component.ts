@@ -174,8 +174,8 @@ export class AddressComponent implements OnInit {
         address: "note value"
       },
       prefill: {
-        contact: self.medtech_mob,
-        email: self.medtech_email
+        contact: self.registerForm.value.tel,
+        email: self.registerForm.value.email
       },
       theme: {
         color: "#5C25B7"
@@ -218,4 +218,16 @@ export class AddressComponent implements OnInit {
         }
       );
   }
+
+  addComma(data){
+    var x=data;
+    x=x.toString();
+    var lastThree = x.substring(x.length-3);
+    var otherNumbers = x.substring(0,x.length-3);
+    if(otherNumbers != '')
+    lastThree = ',' + lastThree;
+    var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+    return res;
+    
+    }
 }

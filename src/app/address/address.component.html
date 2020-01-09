@@ -108,14 +108,14 @@
                 <!-- here -->
                 <div class="row mx-0">
 
-                    <div class="col-lg-6 col-xl-6 px-0">
+                    <!-- <div class="col-lg-6 col-xl-6 px-0">
                         <div class="cardx bg-white p-3 mt-3 position-relative text-dark">
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="cod" (change)="mode($event)" name="customRadio" class="custom-control-input">
                                 <label class="custom-control-label" for="cod">Cash On Delivery</label>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="col-lg-6 col-xl-6 px-0">
                         <div class="cardx bg-white p-3 mt-3 position-relative text-dark">
@@ -150,7 +150,7 @@
                             <h6>Unit Price</h6>
                         </div>
                         <div class="col-5 px-0 text-right ">
-                            <h6><b>{{price}}</b></h6>
+                            <h6><b [innerHtml]="'&#8377;&nbsp;' + addComma(price)">{{price}}</b></h6>
                         </div>
                     </div>
                     <div class="row mx-0 border-bottom ">
@@ -158,7 +158,7 @@
                             <h6>Price</h6>
                         </div>
                         <div class="col-5 px-0 text-right ">
-                            <h6><b>Rs {{price*quan}}</b></h6>
+                            <h6><b [innerHtml]="'&#8377;&nbsp;' + addComma(price*quan)"></b></h6>
                         </div>
                     </div>
                     <div class="row mx-0 pt-2 ">
@@ -166,7 +166,7 @@
                             <h6><b>Total Price</b></h6>
                         </div>
                         <div class="col-5 px-0 text-right ">
-                            <h6><b>Rs {{price*quan}}</b></h6>
+                            <h6><b [innerHtml]="'&#8377;&nbsp;' + addComma(price*quan)"></b></h6>
                         </div>
                     </div>
                 </div>

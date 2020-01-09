@@ -23,6 +23,10 @@ export class SingleComponent implements OnInit, OnChanges {
 
   public quantity = "1";
   public productid;
+  public user_name = "";
+  public email = "";
+  public phone = "";
+  public result_com = "";
 
   ngOnChanges() {
     this.route.queryParams.subscribe(param => {
@@ -49,6 +53,7 @@ export class SingleComponent implements OnInit, OnChanges {
       if (response["code"] === "200") {
         this.product_details = response["data"][0];
         sessionStorage.setItem("medtech_price", this.product_details.price);
+        console.log(this.product_details.price);
       }
     });
     this.productid = this.product_id;
@@ -59,9 +64,9 @@ export class SingleComponent implements OnInit, OnChanges {
     sessionStorage.setItem("medtech_prodid", this.productid);
   }
 
-  qtyChange(){
+  qtyChange() {
     console.log(this.quantity);
-    if(+this.quantity < 1) {
+    if (+this.quantity < 1) {
       this.quantity = "1";
     }
     console.log(this.quantity);
@@ -74,30 +79,71 @@ export class SingleComponent implements OnInit, OnChanges {
       this.apiService.requestproduct(id, this.tokkn).subscribe(
         response => {
           if (response["message"] === "success") {
-            this.btntxt = "Request Sent";
-            setTimeout(() => {
-              this.btntxt = "Request Quote";
-            }, 3000);
+            this.btntxt = "Request Sent Success";
+            this.result_com = "Request Sent Success";
+            $("#res-modal").modal("show");
+            // setTimeout(() => {
+            //   this.btntxt = "Request Quote";
+            // }, 3000);
           } else {
-            this.btntxt = "Request Error!"
+            this.btntxt = "Request Error!";
             setTimeout(() => {
               this.btntxt = "Request Quote";
             }, 3000);
-           
           }
         },
         error => {
-          this.btntxt = "Request Error!"
-            setTimeout(() => {
-              this.btntxt = "Request Quote";
-            }, 3000);
+          this.btntxt = "Request Error!";
+          setTimeout(() => {
+            this.btntxt = "Request Quote";
+          }, 3000);
         }
       );
 
       console.log(sessionStorage.user);
     } else {
       this.btntxt = "Request Quote";
-      $("#login-modal").modal("show");
+      $("#req-modal").modal("show");
     }
   }
+
+  medreq() {
+    if (this.user_name != "" && this.email != "" && this.phone != "") {
+      this.apiService
+        .medrequest(this.user_name, this.email, this.phone, this.productid)
+        .subscribe(response => {
+          if (response["message"] === "success") {
+            this.result_com = "Request Sent Success";
+            $("#req-modal").modal("hide");
+            $("#res-modal").modal("show");
+          } else {
+            this.result_com = "Request not Send";
+            $("#res-modal").modal("show");
+            setTimeout(() => {
+              $("#req-modal").modal("hide");
+            }, 3000);
+          }
+        });
+    } else {
+      this.result_com = "Request not Send";
+      $("#res-modal").modal("show");
+      $("#req-modal").modal("hide");
+      setTimeout(() => {
+        $("#req-modal").modal("show");
+        $("#res-modal").modal("hide");
+      }, 3000);
+    }
+  }
+
+  addComma(data){
+    var x=data;
+    x=x.toString();
+    var lastThree = x.substring(x.length-3);
+    var otherNumbers = x.substring(0,x.length-3);
+    if(otherNumbers != '')
+    lastThree = ',' + lastThree;
+    var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+    return res;
+    
+    }
 }

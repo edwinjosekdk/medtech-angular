@@ -19,8 +19,9 @@
                     <h4 class="text-dark">{{product_details.name}}</h4>
                     <div class="row mx-0">
                         <div class="col-sm-6 px-0 py-2">
-                            <h3 class="text-danger"><b>{{product_details.price}}</b></h3>
-                            <h6 class="text-secondary">Free COD. Free Delivery</h6>
+                            <h3 class="text-danger" *ngIf="product_details.price"><b [innerHtml]="'&#8377;&nbsp;' + addComma(product_details.price)"></b></h3>
+                            <h3 class="text-danger" *ngIf="!product_details.price">Price Not Specified</h3>
+                            <h6 class="text-secondary" *ngIf="product_details.price">Inclusive of all taxes</h6>
                         </div>
                         <div class="col-sm-6 px-0 py-2 pl-0 pl-sm-3 text-secondary">
                             <h6 class="text-dark"><b>Product Features</b></h6>
@@ -41,27 +42,32 @@
                             <button class="btn btn-warning btn-block btn-lg"><i class="fas fa-shopping-cart mr-2"></i> Add to Cart</button>
                         </div> -->
                         <div class="col-lg-6 px-0 py-2 pl-lg-2">
-                            <button *ngIf="product_details.price<=500000" class="btn btn-success btn-block btn-lg" data-toggle="modal" data-target="#qtymodal">Buy Now</button>
+                            <button *ngIf="product_details.price<=500000 && product_details.price != ''" class="btn btn-success btn-block btn-lg" data-toggle="modal" data-target="#qtymodal">Buy Now</button>
                             <button *ngIf="product_details.price>500000" (click)="requestp(product_details.id)" [innerHtml]="btntxt" class="btn btn-success btn-block btn-lg"></button>
+                            <button *ngIf="product_details.price== ''" (click)="requestp(product_details.id)" [innerHtml]="btntxt" class="btn btn-success btn-block btn-lg"></button>
+                        </div>
+
+                        <div class="col-lg-6 px-0 py-2 pl-lg-2">
+                            <button class="btn btn-warning btn-block btn-lg" data-toggle="modal" data-target="#">Add to Cart</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="cardx bg-white px-4 pt-4 pb-3 mt-3">
                     <div class="row mx-0">
-                        <div class="col-4 text-center">
+                        <!-- <div class="col-6 text-center">
                             <img class=" w-50" src="assets/images/png1.png" alt="">
                             <h6 class="text-secondary mt-3"><b>Easy Returns</b></h6>
+                        </div> -->
+
+                        <div class="col-6 text-center">
+                            <img class="w-25" src="assets/images/png2.png" alt="">
+                            <h6 class="text-secondary mt-3"><b>Faster Shipping</b></h6>
                         </div>
 
-                        <div class="col-4 text-center">
-                            <img class="w-50" src="assets/images/png2.png" alt="">
-                            <h6 class="text-secondary mt-3"><b>Easy Returns</b></h6>
-                        </div>
-
-                        <div class="col-4 text-center">
-                            <img class="w-50" src="assets/images/png3.png" alt="">
-                            <h6 class="text-secondary mt-3"><b>Easy Returns</b></h6>
+                        <div class="col-6 text-center">
+                            <img class="w-25" src="assets/images/png3.png" alt="">
+                            <h6 class="text-secondary mt-3"><b>Secure Payments</b></h6>
                         </div>
                     </div>
                 </div>
@@ -92,6 +98,44 @@
                 <div class="w-100 text-right">
                     <button class="btn btn-dark mt-3" data-dismiss="modal" (click)="qty()" routerLink='/address'>Proceed</button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- request-modal -->
+<div class="modal fade" id="req-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-0">
+            <div class="w-85 mx-auto pb-4">
+                <h4 class="text-center text-secondary mt-4">Request Quote</h4>
+                <div class="mt-4">
+                    <input class="form-control" [(ngModel)]="user_name" type="text" placeholder="Name*" required>
+                </div>
+                <div class="mt-3">
+                    <input class="form-control" [(ngModel)]="email" type="text" placeholder="Email*" required>
+                </div>
+                <div class="mt-3">
+                    <input class="form-control" [(ngModel)]="phone" type="tel" placeholder="Phone*" required>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-dark w-100" (click)="medreq()" type="submit">Request <i class="fa fa-sign-in"
+                            aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- result popup -->
+<div class="modal fade" id="res-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-0">
+            <div class="w-85 mx-auto my-4 mx-2">
+                <h5 style="text-align: center;" [ngClass]="{'text-success':result_com === 'Request Sent Success', 'text-danger':result_com === 'Request not Send'}"><b> {{result_com}} </b></h5>
+                <button type="button" class="close position-absolute" style="top:5px;right: 10px;" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         </div>
     </div>

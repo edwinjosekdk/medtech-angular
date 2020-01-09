@@ -16,6 +16,7 @@ export class CategoriesComponent implements OnInit {
   public description;
   public link;
   public idb;
+  public name;
 
   constructor(
     private apiService: ApiserviceService,
@@ -31,10 +32,11 @@ export class CategoriesComponent implements OnInit {
   getselectedcateg() {
     this.apiService.getselectedcategory(this.ids).subscribe(response => {
       this.cattg = response["data"];
-      // console.log(response);
+      console.log(response);
       this.subcategory = response["data"];
       this.description = response["des"];
       this.link = response["link"];
+      this.name = response["name"]
     });
   }
 

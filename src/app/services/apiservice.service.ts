@@ -45,6 +45,26 @@ export class ApiserviceService {
       );
   }
 
+  medrequest(user_name, email, phone, productid){
+    console.log(user_name, email, phone, productid);
+    return this._http
+    .post(
+      this.api_url+"user_order/request_product/",
+      JSON.stringify({
+        user_name: user_name,
+        email:email,
+        phone:phone,
+        pdt_id:productid
+      }),
+      this.requestOptions
+     )
+      .pipe(
+        map(response => {
+          return response;
+        })
+      );
+  }
+
   requestproduct(prod, tokkn) {
     return this._http
       .post(
@@ -147,7 +167,6 @@ export class ApiserviceService {
   }
 
   getselectedcategory(ids) {
-    console.log(ids);
     return this._http
     .post(
       this.api_url+"product_details/sub_category/",

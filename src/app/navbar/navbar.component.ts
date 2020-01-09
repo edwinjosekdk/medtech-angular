@@ -17,9 +17,9 @@ export class NavbarComponent implements OnInit {
   public otp_phone = true;
   public otp_email = false;
   public otpid = "phone";
-  public otp_val_phone = '';
-  public otp_val_email = '';
-  public otp_username = '';
+  public otp_val_phone = "";
+  public otp_val_email = "";
+  public otp_username = "";
   public otp_number;
   public otp_newpass;
   public otp_newrepass;
@@ -284,13 +284,13 @@ export class NavbarComponent implements OnInit {
   }
 
   subroute(menu) {
-    if (menu.child.length == 0) {
+    console.log(menu);
+    if (menu.last == "1") {
       this.route.navigate(["/subprod", menu.id]);
       setTimeout(() => {
         window.location.reload();
       }, 100);
-    }
-    else{
+    } else {
       this.route.navigate(["/categories", menu.id]);
       setTimeout(() => {
         window.location.reload();
@@ -354,33 +354,31 @@ export class NavbarComponent implements OnInit {
   }
 
   sendreset() {
-
-    
-
-    if(!this.forgot_modal_error){
-    this.apiService
-      .sendresetreq(
-        this.otp_username,
-        this.otpid,
-        this.otp_val_phone,
-        this.otp_val_email
-      )
-      .subscribe(response => {
-        console.log(response);
-        if(response["message"] === "success"){
-          $("#otp-modal").modal("show");
-        } else if(response["message"] === "invalid phone" || response["message"] === "invalid email"){
-          this.dispmssg = "Phone or Email not registered";
-          $("#result-modal").modal("show");
-        } else if(response["message"]==="no user"){
-          this.dispmssg = "Please Check your username";
-          $("#result-modal").modal("show");
-        }
-        
-      });
-    }else{
+    if (!this.forgot_modal_error) {
+      this.apiService
+        .sendresetreq(
+          this.otp_username,
+          this.otpid,
+          this.otp_val_phone,
+          this.otp_val_email
+        )
+        .subscribe(response => {
+          console.log(response);
+          if (response["message"] === "success") {
+            $("#otp-modal").modal("show");
+          } else if (
+            response["message"] === "invalid phone" ||
+            response["message"] === "invalid email"
+          ) {
+            this.dispmssg = "Phone or Email not registered";
+            $("#result-modal").modal("show");
+          } else if (response["message"] === "no user") {
+            this.dispmssg = "Please Check your username";
+            $("#result-modal").modal("show");
+          }
+        });
+    } else {
       $("#forgotpass-modal").modal("show");
-
     }
   }
 
@@ -391,7 +389,7 @@ export class NavbarComponent implements OnInit {
       .otpischeck(this.otp_username, this.otp_number)
       .subscribe(response => {
         console.log(response);
-        if(response["message"]==="success"){
+        if (response["message"] === "success") {
           $("#result-modal").modal("hide");
           $("#resettt-modal").modal("show");
         } else {
@@ -407,41 +405,37 @@ export class NavbarComponent implements OnInit {
       .otpreset(this.otp_username, this.otp_newpass)
       .subscribe(response => {
         console.log(response);
-        if (response["message"] === "success"){
+        if (response["message"] === "success") {
           this.dispmssg = "Password Change Success";
-          
         }
       });
   }
 
-
   checkPwd() {
-    if(this.otp_newpass !== this.otp_newrepass){
+    if (this.otp_newpass !== this.otp_newrepass) {
       this.misError = true;
-    } else{
+    } else {
       this.misError = false;
     }
   }
 
-
   validate() {
-    if(this.otp_username === '') {
+    if (this.otp_username === "") {
       this.forgot_modal_error = true;
-    }else{
-    if(this.otpid == "phone"){
-      if(this.otp_val_phone === ''){
-        this.forgot_modal_error = true;
-      } else{
-        this.forgot_modal_error = false;
-      }
-    }else{
-      if(this.otp_val_email === ''){
-        this.forgot_modal_error = true;
-      }
-      else{
-        this.forgot_modal_error = false;
+    } else {
+      if (this.otpid == "phone") {
+        if (this.otp_val_phone === "") {
+          this.forgot_modal_error = true;
+        } else {
+          this.forgot_modal_error = false;
+        }
+      } else {
+        if (this.otp_val_email === "") {
+          this.forgot_modal_error = true;
+        } else {
+          this.forgot_modal_error = false;
+        }
       }
     }
-  }
   }
 }
