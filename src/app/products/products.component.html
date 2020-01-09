@@ -11,7 +11,7 @@
 
         <!-- <h3 class="middler justify-content-center" style="height:50vh">No Orders Placed</h3> -->
 
-        <div class="box-view mt-3">
+        <div class="box-view mt-3" *ngFor="let order of order_det">
             <div class="row mx-0">
                 <div class="col-12 col-md-3 px-3 py-2 middler">
                     <div class="w-100">
@@ -33,7 +33,7 @@
                             <small>Payment Mode</small><br><b class="text-dark">Online</b>
                         </div>
                         <div class="col-6 col-md-3 p-2">
-                            <small>Invoice Number</small><br><b class="text-dark">#0000000000</b>
+                            <small>Invoice Number</small><br><b class="text-dark">{{order.invoice}}</b>
                         </div>
                         <div class="col-6 col-md-3 p-2">
                             <small>Order Status</small><br><b class="text-dark">On the way</b>
