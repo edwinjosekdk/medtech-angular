@@ -27,6 +27,7 @@ export class SingleComponent implements OnInit, OnChanges {
   public email = "";
   public phone = "";
   public result_com = "";
+  public categ_desc;
 
   ngOnChanges() {
     this.route.queryParams.subscribe(param => {
@@ -44,8 +45,8 @@ export class SingleComponent implements OnInit, OnChanges {
       }
     });
     this.getProductDetails();
-
     this.tokkn = sessionStorage.user;
+    this.moredescription();
   }
 
   getProductDetails() {
@@ -135,15 +136,22 @@ export class SingleComponent implements OnInit, OnChanges {
     }
   }
 
-  addComma(data){
-    var x=data;
-    x=x.toString();
-    var lastThree = x.substring(x.length-3);
-    var otherNumbers = x.substring(0,x.length-3);
-    if(otherNumbers != '')
-    lastThree = ',' + lastThree;
+  addComma(data) {
+    var x = data;
+    x = x.toString();
+    var lastThree = x.substring(x.length - 3);
+    var otherNumbers = x.substring(0, x.length - 3);
+    if (otherNumbers != "") lastThree = "," + lastThree;
     var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
     return res;
-    
-    }
+  }
+
+  moredescription() {
+    this.apiService.moredesc(this.product_id).subscribe(response => {
+      if (response["code"] === "200") {
+        console.log(response);
+        this.categ_desc = response["des"];
+      }
+    });
+  }
 }

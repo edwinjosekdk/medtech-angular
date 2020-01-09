@@ -29,7 +29,7 @@ export class ApiserviceService {
   medreg(name, mob, email, pass) {
     return this._http
       .post(
-        this.api_url+"user_login/register_api/",
+        this.api_url + "user_login/register_api/",
         JSON.stringify({
           name: name,
           phone_no: mob,
@@ -45,19 +45,19 @@ export class ApiserviceService {
       );
   }
 
-  medrequest(user_name, email, phone, productid){
+  medrequest(user_name, email, phone, productid) {
     console.log(user_name, email, phone, productid);
     return this._http
-    .post(
-      this.api_url+"user_order/request_product/",
-      JSON.stringify({
-        user_name: user_name,
-        email:email,
-        phone:phone,
-        pdt_id:productid
-      }),
-      this.requestOptions
-     )
+      .post(
+        this.api_url + "user_order/request_product/",
+        JSON.stringify({
+          user_name: user_name,
+          email: email,
+          phone: phone,
+          pdt_id: productid
+        }),
+        this.requestOptions
+      )
       .pipe(
         map(response => {
           return response;
@@ -65,10 +65,26 @@ export class ApiserviceService {
       );
   }
 
+  getorderslist(token){
+    return this._http
+    .post(
+      this.api_url + "user_order/order_status/",
+      JSON.stringify({
+        token: token        
+      }),
+      this.requestOptions
+    )
+    .pipe(
+      map(response => {
+        return response;
+      })
+    );
+  }
+
   requestproduct(prod, tokkn) {
     return this._http
       .post(
-        this.api_url+"user_order/order_request/",
+        this.api_url + "user_order/order_request/",
         JSON.stringify({
           pdt_id: prod,
           token: tokkn
@@ -85,7 +101,7 @@ export class ApiserviceService {
   medlogin(logname, logpass) {
     return this._http
       .post(
-        this.api_url+"user_login/login_user/",
+        this.api_url + "user_login/login_user/",
         JSON.stringify({ email: logname, password: logpass }),
         this.requestOptions
       )
@@ -96,66 +112,66 @@ export class ApiserviceService {
       );
   }
 
-  changepassword(tok,oldp,newp){
+  changepassword(tok, oldp, newp) {
     return this._http
-    .post(
-      this.api_url+"user_login/change_password/",
-      JSON.stringify({token: tok, old_password: oldp, new_password: newp}),
-      this.requestOptions
-    )
-    .pipe(
-      map(Response => {
-        return Response;
-      })
-    );
+      .post(
+        this.api_url + "user_login/change_password/",
+        JSON.stringify({ token: tok, old_password: oldp, new_password: newp }),
+        this.requestOptions
+      )
+      .pipe(
+        map(Response => {
+          return Response;
+        })
+      );
   }
 
-  sendresetreq(username,typ,ph,em){
+  sendresetreq(username, typ, ph, em) {
     return this._http
-    .post(
-      this.api_url+"/user_login/forgot_password/",
-      JSON.stringify({name: username, type: typ, phone: ph, email: em}),
-      this.requestOptions
-    )
-    .pipe(
-      map(Response => {
-        return Response;
-      })
-    )
+      .post(
+        this.api_url + "/user_login/forgot_password/",
+        JSON.stringify({ name: username, type: typ, phone: ph, email: em }),
+        this.requestOptions
+      )
+      .pipe(
+        map(Response => {
+          return Response;
+        })
+      );
   }
 
-  otpischeck(username,otp) {
+  otpischeck(username, otp) {
     return this._http
-    .post(
-      this.api_url+"user_login/otp_verify/",
-      JSON.stringify({name: username, otp: otp}),
-      this.requestOptions
-    )
-    .pipe(
-      map(Response => {
-        return Response;
-      })
-    )
+      .post(
+        this.api_url + "user_login/otp_verify/",
+        JSON.stringify({ name: username, otp: otp }),
+        this.requestOptions
+      )
+      .pipe(
+        map(Response => {
+          return Response;
+        })
+      );
   }
 
-  otpreset(username,passsword) {
+  otpreset(username, passsword) {
     return this._http
-    .post(
-      this.api_url+"user_login/reset_password/",
-      JSON.stringify({name: username, password: passsword}),
-      this.requestOptions
-    )
-    .pipe(
-      map(Response => {
-        return Response;
-      })
-    )
+      .post(
+        this.api_url + "user_login/reset_password/",
+        JSON.stringify({ name: username, password: passsword }),
+        this.requestOptions
+      )
+      .pipe(
+        map(Response => {
+          return Response;
+        })
+      );
   }
 
   getProducts(id) {
     return this._http
       .post(
-        this.api_url+"product_details/sub_product/",
+        this.api_url + "product_details/sub_product/",
         JSON.stringify({ id: id }),
         this.requestOptions
       )
@@ -168,21 +184,24 @@ export class ApiserviceService {
 
   getselectedcategory(ids) {
     return this._http
-    .post(
-      this.api_url+"product_details/sub_category/",
-      JSON.stringify({id:ids}),
-      this.requestOptions
-    )
-    .pipe(
-      map(response => {
-        return response;
-      })
-    );
+      .post(
+        this.api_url + "product_details/sub_category/",
+        JSON.stringify({ id: ids }),
+        this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return response;
+        })
+      );
   }
 
   getAllProducts() {
     return this._http
-      .get(this.api_url+"product_details/product_detail/", this.requestOptions)
+      .get(
+        this.api_url + "product_details/product_detail/",
+        this.requestOptions
+      )
       .pipe(
         map(response => {
           return response;
@@ -193,7 +212,7 @@ export class ApiserviceService {
   getProductDetails(pid) {
     return this._http
       .post(
-        this.api_url+"product_details/detail_product/",
+        this.api_url + "product_details/detail_product/",
         JSON.stringify({ id: pid }),
         this.requestOptions
       )
@@ -206,7 +225,7 @@ export class ApiserviceService {
 
   getnavlist() {
     return this._http
-      .get(this.api_url+"product_details/main_cat/", this.requestOptions)
+      .get(this.api_url + "product_details/main_cat/", this.requestOptions)
       .pipe(
         map(response => {
           return response;
@@ -217,7 +236,7 @@ export class ApiserviceService {
   getsubcateg(scpid) {
     return this._http
       .post(
-        this.api_url+"product_details/sub_category/",
+        this.api_url + "product_details/sub_category/",
         JSON.stringify({ id: scpid }),
         this.requestOptions
       )
@@ -230,7 +249,7 @@ export class ApiserviceService {
 
   getnewcat() {
     return this._http
-      .get(this.api_url+"product_details/all_category/", this.requestOptions)
+      .get(this.api_url + "product_details/all_category/", this.requestOptions)
       .pipe(
         map(response => {
           return response;
@@ -256,7 +275,7 @@ export class ApiserviceService {
   ) {
     return this._http
       .post(
-        this.api_url+"user_order/order_place/",
+        this.api_url + "user_order/order_place/",
         JSON.stringify({
           token: token,
           pdt_id: pdt_id,
@@ -281,6 +300,19 @@ export class ApiserviceService {
         })
       );
   }
+
+
+  moredesc(pdt_id) {
+    return this._http
+      .post(
+        this.api_url + "product_details/category_description/",
+        JSON.stringify({ pdt_id: pdt_id }),
+        this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return response;
+        })
+      );
+  }
 }
-
-
