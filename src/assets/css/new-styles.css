@@ -299,6 +299,10 @@ nav {
     box-shadow: 0px 0px 5px 0px #00000030;
 }
 
+.cursor-not:disabled {
+    cursor: not-allowed;
+}
+
 @media (max-width: 1200px) {
     .captionx .one {
         font-size: 30px;

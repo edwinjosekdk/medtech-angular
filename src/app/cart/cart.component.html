@@ -1,1 +1,38 @@
-<p>cart works!</p>
+<div class="height-setter">
+</div>
+
+<section>
+    <div class="container pt-5 pb-4">
+        <h4 class="mb-4 bg-text">My Orders</h4>
+        <div class="box-view px-3 py-2">
+            <div class="row mx-0">
+                <div class="col-6 col-md-2 middler justify-content-center">
+                    <img class="w-100" src="assets/images/cbct.jpg" alt="">
+                </div>
+                <div class="col-md-4 middler justify-content-center">
+                    <div class="w-100">
+                        <h5>Name of the Product</h5>
+                        <small>Unit Price</small>
+                        <h6 [innerHtml]="'&#8377;&nbsp;' + addComma(12000)"></h6>
+                    </div>
+                </div>
+                <div class="col-md-2 middler justify-content-center">
+                    <div class="">
+                        <small>Quantity</small>
+                        <input class="form-control" type="number" value="1">
+                        <button class="btn btn-dark btn-sm mt-2">Update</button>
+                    </div>
+                </div>
+                <div class="col-md-2 middler justify-content-center">
+                    <div class="">
+                        <small>Total Price</small>
+                        <h6 [innerHtml]="'&#8377;&nbsp;' + addComma(12000)"></h6>
+                    </div>
+                </div>
+                <div class="col-md-2 middler justify-content-center">
+                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

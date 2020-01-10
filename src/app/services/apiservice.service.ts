@@ -81,6 +81,40 @@ export class ApiserviceService {
     );
   }
 
+  cart(token){
+    return this._http
+    .post(
+      this.api_url+"user_order/cart_view/",
+      JSON.stringify({
+        token: token
+      }),
+      this.requestOptions
+    )
+    .pipe(
+      map(response => {
+        return response;
+      })
+    );
+  }
+
+  addcart(pdt_id,token,count){
+    return this._http
+    .post(
+      this.api_url+"user_order/add_cart/",
+      JSON.stringify({
+        pdt_id: pdt_id,
+        token: token,
+        count: count
+      }),
+      this.requestOptions
+    )
+    .pipe(
+      map(response => {
+        return response;
+      })
+    );
+  }
+
   requestproduct(prod, tokkn) {
     return this._http
       .post(

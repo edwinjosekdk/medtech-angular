@@ -73,7 +73,7 @@
                     <div class="px-2 px-lg-0 pr-lg-4"><a href="http://www.med-tech.com/">Medtech Global</a></div>
                     <div class="px-2 px-lg-0 pr-lg-4"><a routerLink="/careers">Careers</a></div>
                     <div class="px-2 px-lg-0 pr-lg-4"><a routerLink="/contact">Contact</a></div>
-                    <div class="px-2 px-lg-0 pr-lg-4"><a routerLink="/cart"><i class="fa fa-shopping-cart mr-1" aria-hidden="true"></i>Cart</a></div>
+                    <div *ngIf="loggedin" class="px-2 px-lg-0 pr-lg-4"><a routerLink="/cart"><i class="fa fa-shopping-cart mr-1" aria-hidden="true"></i>Cart</a></div>
                     <div *ngIf="!loggedin" class="px-2 px-lg-0"><a href="#" data-toggle="modal" data-target="#login-modal"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Login</a>
                     </div>
                     <ul *ngIf="loggedin" class="pl-2 px-lg-0 pr-lg-4">

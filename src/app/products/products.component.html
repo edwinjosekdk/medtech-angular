@@ -2,14 +2,12 @@
 </div>
 
 <section>
-    <!-- <div class="container">
-        
-    </div> -->
+    <div class="container pt-5 pb-3" *ngIf="!order_det">
+        <h3 class="middler justify-content-center" style="height:50vh">No Orders Placed</h3>
+    </div>
 
-    <div class="container pt-5 pb-3">
+    <div class="container pt-5 pb-3" *ngIf="order_det">
         <h4 class="mb-4 bg-text">My Orders</h4>
-
-        <!-- <h3 class="middler justify-content-center" style="height:50vh">No Orders Placed</h3> -->
 
         <div class="box-view mt-3" *ngFor="let order of order_det">
             <div class="row mx-0">
@@ -21,28 +19,29 @@
                 <div class="col-12 col-md-9 p-2">
                     <div class="row mx-0">
                         <div class="col-6 col-md-3 p-2">
-                            <small>Qty</small><br><b class="text-dark">20</b>
+                            <small>Qty</small><br><b class="text-dark">{{order.qty}}</b>
                         </div>
                         <div class="col-6 col-md-3 p-2">
-                            <small>Price</small><br><b class="text-dark">Rs 20,000/-</b>
+                            <small>Price</small><br><b class="text-dark" [innerHtml]="'&#8377;&nbsp;' + addComma(order.price)"></b>
                         </div>
                         <div class="col-6 col-md-3 p-2">
-                            <small>Payment Status</small><br><b class="text-dark">Paid</b>
+                            <small>Payment Status</small><br><b class="text-dark" [innerHtml]="order.pay_status == 0 ? 'Pending':'Paid'"></b>
                         </div>
                         <div class="col-6 col-md-3 p-2">
                             <small>Payment Mode</small><br><b class="text-dark">Online</b>
                         </div>
                         <div class="col-6 col-md-3 p-2">
-                            <small>Invoice Number</small><br><b class="text-dark">{{order.invoice}}</b>
+                            <small>Invoice Number</small><br><b class="text-dark" style=" word-wrap: break-word;">{{order.invoice}}</b>
                         </div>
                         <div class="col-6 col-md-3 p-2">
-                            <small>Order Status</small><br><b class="text-dark">On the way</b>
+                            <small>Order Status</small><br><b class="text-dark">{{order.ord_status}}</b>
                         </div>
                         <div class="col-6 col-md-3 p-2">
-                            <small>Date of Purchase</small><br><b class="text-dark">31-31-3131</b>
+                            <small>Date of Purchase</small><br><b class="text-dark">{{order.ord_date}}</b>
                         </div>
                         <div class="col-6 col-md-3 p-2">
-                            <small>Date of Dispatch</small><br><b class="text-dark">31-31-3131</b>
+                            <small>Date of Dispatch</small><br>
+                            <b class="text-dark" [innerHtml]="order.dis_date != '' ? order.dis_date:'Dispatched Shortly'"></b>
                         </div>
                     </div>
                 </div>
