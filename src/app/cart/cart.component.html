@@ -2,42 +2,56 @@
 </div>
 
 <section>
-    <div class="container pt-5 pb-4">
-        <h4 class="mb-4 bg-text">My Cart</h4>
-        <div class="box-view px-3 py-2 mb-2" *ngFor="let list of cartlist">
-            <div class="row mx-0">
-                <div class="col-6 col-md-2 middler justify-content-center">
-                    <img class="w-100" [src]="img_url + list.image" alt="">
-                </div>
-                <div class="col-md-4 middler justify-content-center">
-                    <div class="w-100">
-                        <h5>{{list.product}}</h5>
-                        <small>Unit Price</small>
-                        <h6 [innerHtml]="'&#8377;&nbsp;' + addComma(list.price)"></h6>
+    <div *ngIf="cartlist && cartlist.length == 0">
+        <div style="height: 50vh;" class="middler justify-content-center">
+            <h4>Cart is empty</h4>
+        </div>
+    </div>
+    <div *ngIf="cartlist && cartlist.length > 0">
+        <div class="container pt-5 pb-4">
+            <h4 class="mb-4 bg-text">My Cart</h4>
+
+            <div class="box-view px-3 py-2 mb-2" *ngFor="let list of cartlist">
+                <div class="row mx-0">
+                    <div class="col-6 col-md-2 middler justify-content-center">
+                        <img class="w-100" [src]="img_url + list.image" alt="">
                     </div>
-                </div>
-                <div class="col-md-2 middler justify-content-center">
-                    <div class="">
-                        <small>Quantity</small>
-                        <input class="form-control" type="number" value="1" [ngModel]="list.count" [id]="list.pdt_id" min="1" oninput="validity.valid||(value='');">
-                        <button class="btn btn-dark btn-sm mt-2" (click)="countupdate(list.pdt_id)">Update</button>
+                    <div class="col-md-4 middler justify-content-center">
+                        <div class="w-100">
+                            <h5>{{list.product}}</h5>
+                            <small>Unit Price</small>
+                            <h6 [innerHtml]="'&#8377;&nbsp;' + addComma(list.price)"></h6>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2 middler justify-content-center">
-                    <div class="">
-                        <small>Total Price</small>
-                        <h6 [innerHtml]="'&#8377;&nbsp;' + addComma(list.amount)"></h6>
+                    <div class="col-md-2 middler justify-content-center">
+                        <div class="">
+                            <small>Quantity</small>
+                            <input class="form-control" type="number" value="1" [ngModel]="list.count" [id]="list.pdt_id" min="1" oninput="validity.valid||(value='');">
+                            <button class="btn btn-dark btn-sm mt-2" (click)="countupdate(list.pdt_id)">Update</button>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2 middler justify-content-center">
-                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    <div class="col-md-2 middler justify-content-center">
+                        <div class="">
+                            <small>Total Price</small>
+                            <h6 [innerHtml]="'&#8377;&nbsp;' + addComma(list.amount)"></h6>
+                        </div>
+                    </div>
+                    <div class="col-md-2 middler justify-content-center">
+                        <button class="btn btn-danger btn-sm" (click)="trash(list.pdt_id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </div>
                 </div>
             </div>
+
+
+            <hr>
+
+            <h4 class="pb-2 text-right">Total : <b *ngIf="total" [innerHtml]="'&#8377;&nbsp;' + addComma(total)">{{total}}</b></h4>
+
+            <div class="text-right">
+                <button class="btn btn-success btn-lg" *ngIf="total < 500000" data-toggle="modal" data-target="#address-modal">Buy Now</button>
+            </div>
+            <div class="text-center text-danger" *ngIf="total > 500000"><b>You cannot purchase when the total price is above 5 Lakhs</b></div>
         </div>
-
-        <hr>
-
-        <h4><b>Total : </b><span style="float:right" [innerHtml]="'&#8377;&nbsp;' + addComma(total)">{{total}}</span></h4>
     </div>
 </section>
 
@@ -50,6 +64,111 @@
                 <button type="button" class="close position-absolute" style="top:5px;right: 10px;" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- address popup -->
+<div class="modal fade" id="address-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content rounded-0">
+            <div class="p-2">
+                <form class="form-horizontal" [formGroup]="registerForm" (ngSubmit)="addr()" #formDir="ngForm">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="">Name</label>
+                            <input type="text" class="form-control" formControlName="name" placeholder="Name">
+                            <span *ngIf="registerForm.controls['name'].errors && (registerForm.controls['name'].dirty || registerForm.controls['name'].touched) || (registerForm.controls['name'].errors && formDir.submitted)">
+                                    <span class="errorMsg" *ngIf="registerForm.controls['name'].errors?.required">Name required</span>
+                            <span class="errorMsg" *ngIf="registerForm.controls['name'].errors?.minlength">Name must be atleast 3 characters long</span>
+
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Mobile Number</label>
+                            <input type="tel" class="form-control" formControlName="tel" placeholder="Mobile Number">
+                            <span *ngIf="(registerForm.controls['tel'].errors && (registerForm.controls['tel'].dirty || registerForm.controls['tel'].touched)) || (registerForm.controls['tel'].errors && formDir.submitted)">
+                                    <span class="errorMsg" *ngIf="registerForm.controls['tel'].errors?.required">Phone number is required</span>
+                            <span class="errorMsg" *ngIf="registerForm.controls['tel'].errors?.minlength || registerForm.controls['tel'].errors?.maxlength">Please provide a valid phone number</span>
+                            <span class="errorMsg" *ngIf="registerForm.controls['tel'].errors?.pattern">No charactors allowed</span>
+
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Email</label>
+                        <input type="Email" class="form-control" formControlName="email" placeholder="Email">
+                        <span *ngIf="registerForm.controls['email'].errors && (registerForm.controls['email'].dirty || registerForm.controls['email'].touched) || (registerForm.controls['email'].errors && formDir.submitted)">
+                                <span class="errorMsg" *ngIf="registerForm.controls['email'].errors?.required">Email is required</span>
+                        <span class="errorMsg" *ngIf="registerForm.controls['email'].errors?.pattern">Please provide a valid email!</span>
+                        </span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="">House No. / House Name</label>
+                            <input type="text" class="form-control" formControlName="housenumber">
+                            <span *ngIf="registerForm.controls['housenumber'].errors && (registerForm.controls['housenumber'].dirty || registerForm.controls['housenumber'].touched) || (registerForm.controls['housenumber'].errors && formDir.submitted)">
+                                    <span class="errorMsg" *ngIf="registerForm.controls['housenumber'].errors?.required">House details required</span>
+                            <span class="errorMsg" *ngIf="registerForm.controls['housenumber'].errors?.minlength">House details must be atleast 3 characters long</span>
+
+                            </span>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="">Area</label>
+                            <input type="text" class="form-control" formControlName="area">
+                            <span *ngIf="registerForm.controls['area'].errors && (registerForm.controls['area'].dirty || registerForm.controls['area'].touched) || (registerForm.controls['area'].errors && formDir.submitted)">
+                                    <span class="errorMsg" *ngIf="registerForm.controls['area'].errors?.required">area required</span>
+                            <span class="errorMsg" *ngIf="registerForm.controls['area'].errors?.minlength">area must be atleast 3 characters long</span>
+
+                            </span>
+
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="">Landmark</label>
+                            <input type="text" class="form-control" formControlName="landmark">
+                            <span *ngIf="registerForm.controls['landmark'].errors && (registerForm.controls['landmark'].dirty || registerForm.controls['landmark'].touched) || (registerForm.controls['landmark'].errors && formDir.submitted)">
+                                    <span class="errorMsg" *ngIf="registerForm.controls['landmark'].errors?.required">landmark required</span>
+                            <span class="errorMsg" *ngIf="registerForm.controls['landmark'].errors?.minlength">landmark must be atleast 3 characters long</span>
+
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-row ">
+                        <div class="form-group col-md-6 ">
+                            <label for=" ">City</label>
+                            <input type="text " class="form-control " formControlName="city">
+                            <span *ngIf="registerForm.controls['city'].errors && (registerForm.controls['city'].dirty || registerForm.controls['city'].touched) || (registerForm.controls['city'].errors && formDir.submitted)">
+                                    <span class="errorMsg" *ngIf="registerForm.controls['city'].errors?.required">city required</span>
+                            <span class="errorMsg" *ngIf="registerForm.controls['city'].errors?.minlength">city must be atleast 3 characters long</span>
+
+                            </span>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="">State</label>
+                            <input type="text" class="form-control" formControlName="state">
+                            <span *ngIf="registerForm.controls['state'].errors && (registerForm.controls['state'].dirty || registerForm.controls['state'].touched) || (registerForm.controls['state'].errors && formDir.submitted)">
+                                    <span class="errorMsg" *ngIf="registerForm.controls['state'].errors?.required">state required</span>
+                            <span class="errorMsg" *ngIf="registerForm.controls['state'].errors?.minlength">state must be atleast 3 characters long</span>
+
+                            </span>
+                        </div>
+                        <div class="form-group col-md-2 ">
+                            <label for="">zip</label>
+                            <input type="text" class="form-control" formControlName="zipcode">
+                            <span *ngIf="registerForm.controls['zipcode'].errors && (registerForm.controls['zipcode'].dirty || registerForm.controls['zipcode'].touched) || (registerForm.controls['zipcode'].errors && formDir.submitted)">
+                                        <span class="errorMsg" *ngIf="registerForm.controls['zipcode'].errors?.required">zipcode required</span>
+                            <span class="errorMsg" *ngIf="registerForm.controls['zipcode'].errors?.minlength">zipcode must be atleast 3 characters long</span>
+                            <span class="errorMsg" *ngIf="registerForm.controls['zipcode'].errors?.maxlength">zipcode must be atmost 6 characters long</span>
+                            <span class="errorMsg" *ngIf="registerForm.controls['zipcode'].errors?.pattern">zipcode must be numbers</span>
+
+                            </span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-dark">Proceed</button>
+                </form>
             </div>
         </div>
     </div>

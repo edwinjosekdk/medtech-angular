@@ -275,6 +275,23 @@ export class ApiserviceService {
       );
   }
 
+  removeitem(tok, pid){
+    return this._http
+      .post(
+        this.api_url + "user_order/cart_remove/",
+        JSON.stringify({ 
+          token:tok,
+          pdt_id: pid
+        }),
+        this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return response;
+        })
+      );
+  }
+
   getnavlist() {
     return this._http
       .get(this.api_url + "product_details/main_cat/", this.requestOptions)
