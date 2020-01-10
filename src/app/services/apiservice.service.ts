@@ -384,9 +384,21 @@ export class ApiserviceService {
     phone,
     email
   ) {
+    console.log(token,
+      pay_id,
+      amount,
+      name,
+      house_no,
+      area,
+      landmark,
+      city,
+      state,
+      zip,
+      phone,
+      email);
     return this._http
       .post(
-        this.api_url + "user_order/order_place/",
+        this.api_url + "user_order/cart_order/",
         JSON.stringify({
           token:token,
           pay_id:pay_id,

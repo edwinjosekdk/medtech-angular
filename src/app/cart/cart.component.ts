@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ApiserviceService } from "../services/apiservice.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 declare const $: any;
 declare const Razorpay: any;
 
@@ -25,7 +26,7 @@ export class CartComponent implements OnInit {
   public city;
   public state;
   public zip;
-  
+
   public paymentid;
 
   constructor(
@@ -87,7 +88,7 @@ export class CartComponent implements OnInit {
     this.lmrk = this.registerForm.value.landmark;
     this.city = this.registerForm.value.city;
     this.state = this.registerForm.value.state;
-    this.zip = this.registerForm.value.zipcode;   
+    this.zip = this.registerForm.value.zipcode;
 
     this.clearErrors();
     this.payNow();
@@ -106,7 +107,7 @@ export class CartComponent implements OnInit {
       phone: self.mob,
       handler: function(response) {
         self.paymentid = response.razorpay_payment_id;
-        self.paymentResp();
+        self.placeorderall();
       },
 
       notes: {
