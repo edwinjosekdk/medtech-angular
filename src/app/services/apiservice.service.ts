@@ -65,54 +65,54 @@ export class ApiserviceService {
       );
   }
 
-  getorderslist(token){
+  getorderslist(token) {
     return this._http
-    .post(
-      this.api_url + "user_order/order_status/",
-      JSON.stringify({
-        token: token        
-      }),
-      this.requestOptions
-    )
-    .pipe(
-      map(response => {
-        return response;
-      })
-    );
+      .post(
+        this.api_url + "user_order/order_status/",
+        JSON.stringify({
+          token: token
+        }),
+        this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return response;
+        })
+      );
   }
 
-  cart(token){
+  cart(token) {
     return this._http
-    .post(
-      this.api_url+"user_order/cart_view/",
-      JSON.stringify({
-        token: token
-      }),
-      this.requestOptions
-    )
-    .pipe(
-      map(response => {
-        return response;
-      })
-    );
+      .post(
+        this.api_url + "user_order/cart_view/",
+        JSON.stringify({
+          token: token
+        }),
+        this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return response;
+        })
+      );
   }
 
-  addcart(pdt_id,token,count){
+  addcart(pdt_id, token, count) {
     return this._http
-    .post(
-      this.api_url+"user_order/add_cart/",
-      JSON.stringify({
-        pdt_id: pdt_id,
-        token: token,
-        count: count
-      }),
-      this.requestOptions
-    )
-    .pipe(
-      map(response => {
-        return response;
-      })
-    );
+      .post(
+        this.api_url + "user_order/add_cart/",
+        JSON.stringify({
+          pdt_id: pdt_id,
+          token: token,
+          count: count
+        }),
+        this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return response;
+        })
+      );
   }
 
   requestproduct(prod, tokkn) {
@@ -257,14 +257,14 @@ export class ApiserviceService {
       );
   }
 
-  qtyupdate(tok,pid,count){
+  qtyupdate(tok, pid, count) {
     return this._http
       .post(
         this.api_url + "user_order/cart_add/",
-        JSON.stringify({ 
-          token:tok,
+        JSON.stringify({
+          token: tok,
           pdt_id: pid,
-          count: count 
+          count: count
         }),
         this.requestOptions
       )
@@ -275,12 +275,12 @@ export class ApiserviceService {
       );
   }
 
-  removeitem(tok, pid){
+  removeitem(tok, pid) {
     return this._http
       .post(
         this.api_url + "user_order/cart_remove/",
-        JSON.stringify({ 
-          token:tok,
+        JSON.stringify({
+          token: tok,
           pdt_id: pid
         }),
         this.requestOptions
@@ -370,6 +370,45 @@ export class ApiserviceService {
       );
   }
 
+  placeordermany(
+    token,
+    pay_id,
+    amount,
+    name,
+    house_no,
+    area,
+    landmark,
+    city,
+    state,
+    zip,
+    phone,
+    email
+  ) {
+    return this._http
+      .post(
+        this.api_url + "user_order/order_place/",
+        JSON.stringify({
+          token:token,
+          pay_id:pay_id,
+          amount:amount,
+          name:name,
+          house_no:house_no,
+          area:area,
+          landmark:landmark,
+          city:city,
+          state:state,
+          zip:zip,
+          phone:phone,
+          email:email
+        }),
+        this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return response;
+        })
+      );
+  }
 
   moredesc(pdt_id) {
     return this._http

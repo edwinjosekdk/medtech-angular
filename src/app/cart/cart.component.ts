@@ -124,38 +124,36 @@ export class CartComponent implements OnInit {
     rzp1.open();
   }
 
-  paymentResp() {
-    // const user = sessionStorage.user;
-    // this.apiService
-    //   .placeorder(
-    //     user,
-    //     '',
-    //     'online',
-    //     '',
-    //     this.paymentid,
-    //     this.name,
-    //     this.city,
-    //     this.state,
-    //     this.zip,
-    //     this.mob,
-    //     this.email,
-    //     this.hno,
-    //     this.area,
-    //     this.lmrk
-    //   )
-    //   .subscribe(
-    //     response => {
-    //       if (response["message"] == "success") {
-    //         this.router.navigate(["/paymode"]);
-    //       } else {
-    //         this.router.navigate(["/fail"]);
-    //       }
-    //     },
-    //     error => {
-    //       console.log(error);
-    //       this.router.navigate(["/fail"]);
-    //     }
-    //   );
+  placeorderall() {
+    const user = sessionStorage.user;
+    this.apiService
+      .placeordermany(
+        user,
+        this.paymentid,
+        this.total,
+        this.name,
+        this.hno,
+        this.area,
+        this.lmrk,
+        this.city,
+        this.state,
+        this.zip,
+        this.mob,
+        this.email
+      )
+      .subscribe(
+        response => {
+          if (response["message"] == "success") {
+            this.route.navigate(["/paymode"]);
+          } else {
+            this.route.navigate(["/fail"]);
+          }
+        },
+        error => {
+          console.log(error);
+          this.route.navigate(["/fail"]);
+        }
+      );
   }
 
   clearErrors() {
