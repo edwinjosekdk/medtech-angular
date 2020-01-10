@@ -3,30 +3,30 @@
 
 <section>
     <div class="container pt-5 pb-4">
-        <h4 class="mb-4 bg-text">My Orders</h4>
-        <div class="box-view px-3 py-2">
+        <h4 class="mb-4 bg-text">My Cart</h4>
+        <div class="box-view px-3 py-2 mb-2" *ngFor="let list of cartlist">
             <div class="row mx-0">
                 <div class="col-6 col-md-2 middler justify-content-center">
-                    <img class="w-100" src="assets/images/cbct.jpg" alt="">
+                    <img class="w-100" [src]="img_url + list.image" alt="">
                 </div>
                 <div class="col-md-4 middler justify-content-center">
                     <div class="w-100">
-                        <h5>Name of the Product</h5>
+                        <h5>{{list.product}}</h5>
                         <small>Unit Price</small>
-                        <h6 [innerHtml]="'&#8377;&nbsp;' + addComma(12000)"></h6>
+                        <h6 [innerHtml]="'&#8377;&nbsp;' + addComma(list.price)"></h6>
                     </div>
                 </div>
                 <div class="col-md-2 middler justify-content-center">
                     <div class="">
                         <small>Quantity</small>
-                        <input class="form-control" type="number" value="1">
-                        <button class="btn btn-dark btn-sm mt-2">Update</button>
+                        <input class="form-control" type="number" value="1" [ngModel]="list.count" [id]="list.pdt_id" min="1" oninput="validity.valid||(value='');">
+                        <button class="btn btn-dark btn-sm mt-2" (click)="countupdate(list.pdt_id)">Update</button>
                     </div>
                 </div>
                 <div class="col-md-2 middler justify-content-center">
                     <div class="">
                         <small>Total Price</small>
-                        <h6 [innerHtml]="'&#8377;&nbsp;' + addComma(12000)"></h6>
+                        <h6 [innerHtml]="'&#8377;&nbsp;' + addComma(list.amount)"></h6>
                     </div>
                 </div>
                 <div class="col-md-2 middler justify-content-center">
@@ -34,5 +34,23 @@
                 </div>
             </div>
         </div>
+
+        <hr>
+
+        <h4><b>Total : </b><span style="float:right" [innerHtml]="'&#8377;&nbsp;' + addComma(total)">{{total}}</span></h4>
     </div>
 </section>
+
+<!-- result popup -->
+<div class="modal fade" id="cart_res-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-0">
+            <div class="w-85 mx-auto my-4 mx-2">
+                <h5 style="text-align: center;" [ngClass]="{'text-danger':errormssg === 'Error loading cart', 'text-warning':errormssg === 'Please Login'}"><b> {{errormssg}} </b></h5>
+                <button type="button" class="close position-absolute" style="top:5px;right: 10px;" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

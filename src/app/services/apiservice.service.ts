@@ -257,6 +257,24 @@ export class ApiserviceService {
       );
   }
 
+  qtyupdate(tok,pid,count){
+    return this._http
+      .post(
+        this.api_url + "user_order/cart_add/",
+        JSON.stringify({ 
+          token:tok,
+          pdt_id: pid,
+          count: count 
+        }),
+        this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return response;
+        })
+      );
+  }
+
   getnavlist() {
     return this._http
       .get(this.api_url + "product_details/main_cat/", this.requestOptions)

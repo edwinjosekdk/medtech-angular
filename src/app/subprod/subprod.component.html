@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="row mx-0 mt-2">
                                         <div class="col-6 pl-0 pr-2">
-                                            <button class="btn btn-warning cursor-not btn-sm w-100" [disabled]="prod.price == ''" (click)="qty(prod.id,prod.name,prod.image)">Add to Cart</button>
+                                            <button class="btn btn-warning cursor-not btn-sm w-100" [disabled]="prod.price == '' || prod.price > 500000" (click)="qty(prod.id,prod.name,prod.image)">Add to Cart</button>
                                         </div>
                                         <div class="col-6 pr-0 pl-2">
                                             <a target="blank" [href]="link" target="_blank" class="btn btn-secondary btn-sm w-100">Vendor Site</a>
