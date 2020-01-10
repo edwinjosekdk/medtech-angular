@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { from } from "rxjs";
 declare var $: any;
 
+
+
 @Component({
   selector: "app-single",
   templateUrl: "./single.component.html",
@@ -15,6 +17,12 @@ export class SingleComponent implements OnInit, OnChanges {
   public product_details;
   public tokkn;
   public btntxt = "Request Quote";
+
+  public prod_id;
+  public name_modal;
+  public photo_modal;
+  public usertoken;
+  public cart_res;
 
   constructor(
     private apiService: ApiserviceService,
@@ -153,5 +161,27 @@ export class SingleComponent implements OnInit, OnChanges {
         this.categ_desc = response["des"];
       }
     });
+  }
+
+  qtys(id, name, photo) {
+    this.prod_id = id;
+    this.name_modal = name;
+    this.photo_modal = photo;
+    $("#qtysmodal").modal("show");
+  }
+
+  addtocart() {
+    this.usertoken = sessionStorage.user;
+    this.apiService
+      .addcart(this.prod_id, this.usertoken, this.quantity)
+      .subscribe(response => {
+        console.log(response);
+        if (response["message"] === "success") {
+          this.cart_res = "Added to Cart";         
+          $("#cart_res-modal").modal("show");
+        } else {
+          this.cart_res = "Add to cart error";
+        }
+      });
   }
 }
