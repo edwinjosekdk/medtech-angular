@@ -49,7 +49,7 @@
                         </div>
 
                         <div class="col-lg-6 px-0 py-2 pl-lg-2">
-                            <button class="btn btn-warning btn-block btn-lg" data-toggle="modal" data-target="#">Add to Cart</button>
+                            <button class="btn btn-warning btn-block btn-lg cursor-not" [disabled]="product_details.price == '' || product_details.price > 500000" (click)="qtys(product_details.id,product_details.name,product_details.image)">Add to Cart</button>
                         </div>
                     </div>
                 </div>
@@ -154,6 +154,48 @@
         <div class="modal-content rounded-0">
             <div class="w-85 mx-auto my-4 mx-2">
                 <h5 style="text-align: center;" [ngClass]="{'text-success':result_com === 'Request Sent Success', 'text-danger':result_com === 'Request not Send'}"><b> {{result_com}} </b></h5>
+                <button type="button" class="close position-absolute" style="top:5px;right: 10px;" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- qty modal -->
+<div class="modal fade" id="qtysmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">{{name_modal}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mx-0 box-view py-3 rounded">
+                    <div class="col-5 px-0"><img style="height: 100px;object-fit: contain;" *ngIf="photo_modal" [src]="img_url + photo_modal" alt="" class="w-100" /></div>
+                    <div class="col-7 pr-0">
+                        <h5><b>{{name_modal}}</b></h5>
+                        <div><small>Quantity</small></div>
+                        <input style="width: 100px;" [(ngModel)]="quantity" min="1" oninput="validity.valid||(value='');" type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="w-100 text-right">
+                    <button class="btn btn-dark mt-3" data-dismiss="modal" (click)="addtocart()">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- result popup -->
+<div class="modal fade" id="cart_res-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-0">
+            <div class="w-85 mx-auto my-4 mx-2">
+                <h5 style="text-align: center;" [ngClass]="{'text-success':cart_res === 'Added to Cart', 'text-danger':cart_res === 'Add to cart error'}"><b> {{cart_res}} </b></h5>
                 <button type="button" class="close position-absolute" style="top:5px;right: 10px;" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
