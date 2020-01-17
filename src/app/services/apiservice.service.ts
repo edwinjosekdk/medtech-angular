@@ -163,7 +163,7 @@ export class ApiserviceService {
   sendresetreq(username, typ, ph, em) {
     return this._http
       .post(
-        this.api_url + "/user_login/forgot_password/",
+        this.api_url + "user_login/forgot_password/",
         JSON.stringify({ name: username, type: typ, phone: ph, email: em }),
         this.requestOptions
       )

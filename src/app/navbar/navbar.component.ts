@@ -351,6 +351,7 @@ export class NavbarComponent implements OnInit {
     this.otp_phone = false;
     this.otp_email = true;
     this.otpid = "email";
+    console.log("otpid",this.otpid);
   }
 
   sendreset() {
@@ -429,7 +430,7 @@ export class NavbarComponent implements OnInit {
         } else {
           this.forgot_modal_error = false;
         }
-      } else {
+      } else if(this.otpid == "email") {
         if (this.otp_val_email === "") {
           this.forgot_modal_error = true;
         } else {

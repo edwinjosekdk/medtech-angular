@@ -159,7 +159,7 @@ export class AddressComponent implements OnInit {
     var self = this;
     var options = {
       // key: "rzp_live_MquWTYi6ypIVBE",
-      key: "rzp_test_Sc2QOgXEJcedKm",
+      key: "rzp_live_NfmcD7b83Mqza4",
       amount: self.price * self.quan * 100,
       currency: "INR",
       name: self.medtech_name,

@@ -56,14 +56,18 @@ export class SubprodComponent implements OnInit, OnDestroy {
 
   getprod() {
     this.apiService.getProducts(this.cat_id).subscribe(response => {
-      // console.log(response);
+      console.log(response);
       if (response["code"] === "200") {
         this.products = response["data"];
         this.description = response["des"];
-        this.namez = response["name"];
+        this.namez = response["cat_name"];
         this.link = response["link"];
-      } else {
+      } else if(response["code"] === "203") {
         this.products = [];
+        console.log("rrrrr",response["cat_name"]);
+        this.namez = response["cat_name"];
+        this.link = response["link"];
+        this.description = response["des"];
       }
     });
   }
