@@ -74,6 +74,7 @@ export class SubprodComponent implements OnInit, OnDestroy {
 
   getAll() {
     this.apiService.getAllProducts().subscribe(response => {
+      console.log(response);
       if (response["code"] === "200") {
         this.products = response["data"];
       }

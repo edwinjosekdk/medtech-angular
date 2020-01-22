@@ -23,6 +23,7 @@ export class SingleComponent implements OnInit, OnChanges {
   public photo_modal;
   public usertoken;
   public cart_res;
+  public features;
 
   constructor(
     private apiService: ApiserviceService,
@@ -59,8 +60,10 @@ export class SingleComponent implements OnInit, OnChanges {
 
   getProductDetails() {
     this.apiService.getProductDetails(this.product_id).subscribe(response => {
+      console.log("here",response);
       if (response["code"] === "200") {
         this.product_details = response["data"][0];
+        this.features = this.product_details.feature.slice(0,3);
         sessionStorage.setItem("medtech_price", this.product_details.price);
         console.log(this.product_details.price);
       }

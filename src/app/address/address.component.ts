@@ -19,6 +19,7 @@ export class AddressComponent implements OnInit {
   public price;
   public prodid;
   public medtech_mode;
+  public cart_res;
 
   public alert;
 
@@ -82,6 +83,7 @@ export class AddressComponent implements OnInit {
       // selectedCountryCode: new FormControl('', Validators.required),
       // gender: new FormControl('', Validators.required)
   });
+  this.addtocart();
   }
 
   purchaseproduct() {
@@ -136,23 +138,24 @@ export class AddressComponent implements OnInit {
   shopnow() {
     console.log("here......");
     if (sessionStorage.user) {
-      if (this.medtech_mode === "cod") {
-        this.purchaseproduct();
-      } else if (this.medtech_mode === "online") {
-        console.log("online");
-        this.payNow();
-      } else {
-        this.alert = "Choose payment option";
-        setTimeout(() => {
-          this.alert = "";
-        }, 3500);
-      }
+      // if (this.medtech_mode === "cod") {
+      //   this.purchaseproduct();
+      // } else if (this.medtech_mode === "online") {
+      //   console.log("online");
+      //   this.payNow();
+      // } else {
+      //   this.alert = "Choose payment option";
+      //   setTimeout(() => {
+      //     this.alert = "";
+      //   }, 3500);
+      this.payNow();
     } else {
       $("#login-modal").modal("show");
     }
   }
 
   payNow() {
+    
     this.price = sessionStorage.medtech_price;
     this.quan = sessionStorage.medtech_quan;
     this.prodid = sessionStorage.medtech_prodid;
@@ -230,4 +233,28 @@ export class AddressComponent implements OnInit {
     return res;
     
     }
+
+    addtocart() {
+      console.log("here");
+      const usertoken = sessionStorage.user;
+      if(usertoken){
+      this.price = sessionStorage.medtech_price;
+      this.quan = sessionStorage.medtech_quan;
+      this.prodid = sessionStorage.medtech_prodid;
+      this.apiService
+        .addcart(this.prodid, usertoken, this.quan)
+        .subscribe(response => {
+          console.log(response);
+          if (response["message"] === "success") {
+            this.cart_res = "Added to Cart";   
+            $("#cart_res-modal").modal("show");
+          } else {
+            this.cart_res = "Add to cart error";
+          }
+        });
+    } else{
+      $("#login-modal").modal("show");
+      
+    }
+  }
 }
